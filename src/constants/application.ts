@@ -1,0 +1,1 @@
+export const APPLICATION_PREFIX = "@CONDO_ACCOUNT";
