@@ -13,15 +13,7 @@ import { TouchableIcon } from "@components/TouchableIcon";
 
 import { AccountType } from "@models/account";
 
-import { AccountCounter, ListContainer, PageTitle } from "./styles";
-
-export const AccountItem = styled(TouchableOpacity)`
-  flex: 1;
-  background-color: #fff;
-  border-radius: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-`;
+import { AccountCounter, AccountItem, ListContainer, PageTitle } from "./styles";
 
 const AccountListScreen = () => {
   const navigation = useNavigation<AccountNavigationProps<"AccountList">>();
