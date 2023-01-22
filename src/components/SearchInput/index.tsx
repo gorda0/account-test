@@ -1,5 +1,3 @@
-import { View } from "react-native";
-
 import colors from "@constants/colors";
 
 import { Input, SearchContainer, SearchIcon } from "./styles";

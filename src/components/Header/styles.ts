@@ -3,24 +3,21 @@ import { Text, View } from "react-native";
 import colors from "@constants/colors";
 import styled from "styled-components";
 
-export const BaseContainer = styled(View)`
-  padding-left: 10px;
-  padding-right: 10px;
-`;
-
-export const Container = styled(BaseContainer)`
-  flex-direction: row;
-  align-items: center;
+export const RowContainer = styled(View)`
   justify-content: space-between;
-  min-height: 60px;
-`;
-
-export const RowContainer = styled(BaseContainer)`
-  flex: 1;
   flex-direction: row;
   align-items: center;
+`;
+
+export const Container = styled(RowContainer)`
+  min-height: 60px;
+  padding-left: 15px;
+  padding-right: 15px;
+`;
+
+export const LeftContainer = styled(RowContainer)`
+  flex: 1;
   justify-content: flex-start;
-  padding-left: 0px;
 `;
 
 export const Title = styled(Text)`

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { TouchableWithoutFeedback, TouchableOpacity, View } from "react-native";
 
-import { Container, RowContainer, Title, BaseContainer } from "./styles";
+import { Container, RowContainer, Title } from "./styles";
 
 interface HeaderProps {
   name: string;
@@ -20,7 +20,7 @@ const Header = ({ name, leftItem, rightItem, bottomItem }: HeaderProps) => {
         </RowContainer>
         {rightItem && <TouchableOpacity>{rightItem}</TouchableOpacity>}
       </Container>
-      {bottomItem && <BaseContainer>{bottomItem}</BaseContainer>}
+      {bottomItem && <Container>{bottomItem}</Container>}
     </View>
   );
 };

@@ -1,10 +1,19 @@
-import colors from "@constants/colors";
-import { Text } from "react-native";
+import { ScrollView, Text } from "react-native";
 
+import colors from "@constants/colors";
 import styled from "styled-components";
 
 export const PageTitle = styled(Text)`
   font-size: 20px;
   font-weight: 600;
   color: ${colors.grayBold};
+`;
+
+export const AccountCounter = styled(Text)`
+  color: ${colors.grayLight};
+`;
+
+export const ListContainer = styled(ScrollView)`
+  margin-top: 10;
+  flex: 1;
 `;
