@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 
 import colors from "@constants/colors";
 import { AccountContext } from "@contexts/AccountContext";
@@ -11,10 +11,11 @@ import { BlankView } from "@components/BlankView";
 import { Container, RowContainer, Title } from "@components/Header/styles";
 import { TouchableIcon } from "@components/TouchableIcon";
 
-import { AccountCounter, ListContainer, PageTitle } from "./styles";
 import { AccountType } from "@models/account";
 
-export const AccountItem = styled(View)`
+import { AccountCounter, ListContainer, PageTitle } from "./styles";
+
+export const AccountItem = styled(TouchableOpacity)`
   flex: 1;
   background-color: #fff;
   border-radius: 10px;
@@ -24,7 +25,7 @@ export const AccountItem = styled(View)`
 
 const AccountListScreen = () => {
   const navigation = useNavigation<AccountNavigationProps<"AccountList">>();
-  const { accounts, addAccount } = useContext(AccountContext);
+  const { accounts, addAccount, removeAccount } = useContext(AccountContext);
 
   return (
     <BlankView>
@@ -35,10 +36,20 @@ const AccountListScreen = () => {
 
       <ListContainer>
         {accounts.map((account, accountIdx) => (
-          <AccountItem key={account.name + accountIdx}>
+          <AccountItem
+            key={account.name + accountIdx}
+            onPress={() => navigation.navigate("Account", { accountId: account.code })}
+          >
             <Container>
-              <Text>1 . Teste</Text>
-              <TouchableIcon name="trash" size={20} color={colors.grayLight} />
+              <Text>
+                {account.code} - {account.name}
+              </Text>
+              <TouchableIcon
+                name="trash"
+                size={20}
+                color={colors.grayLight}
+                onPress={() => removeAccount(account.code)}
+              />
             </Container>
           </AccountItem>
         ))}

@@ -4,8 +4,9 @@ export enum AccountType {
 }
 
 export interface AccountModel {
-  code: number;
   name: string;
+  code: string;
+  parentCode: string;
   type: AccountType;
   isRelease: boolean;
 }

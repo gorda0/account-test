@@ -3,7 +3,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 
 export type AccountStackParamMap = {
   Account: {
-    accountId?: number;
+    accountId?: string;
   };
   AccountList: undefined;
 };
