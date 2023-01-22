@@ -25,7 +25,7 @@ export const AccountItem = styled(TouchableOpacity)`
 
 const AccountListScreen = () => {
   const navigation = useNavigation<AccountNavigationProps<"AccountList">>();
-  const { accounts, addAccount, removeAccount } = useContext(AccountContext);
+  const { accounts, removeAccount } = useContext(AccountContext);
 
   return (
     <BlankView>
