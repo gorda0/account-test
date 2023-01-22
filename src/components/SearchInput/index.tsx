@@ -8,7 +8,7 @@ const SearchInput = () => {
   return (
     <SearchContainer>
       <SearchIcon name="search" size={20} color={colors.grayLight} />
-      <Input />
+      <Input placeholder="Pesquisar conta" />
     </SearchContainer>
   );
 };
