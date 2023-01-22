@@ -13,6 +13,7 @@ import { isAndroid } from "@utils/platform";
 
 import Header from "@components/Header";
 import { TouchableIcon } from "@components/TouchableIcon";
+import SearchInput from "@components/SearchInput";
 
 const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
   const navigation = useNavigation<AccountNavigationProps>();
@@ -53,7 +54,7 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
                 size={30}
               />
             }
-            searchBar={!isAccountScreen}
+            bottomItem={!isAccountScreen && <SearchInput />}
           />
         </SafeAreaView>
       </View>

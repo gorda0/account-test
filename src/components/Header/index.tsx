@@ -1,9 +1,5 @@
 import { ReactNode } from "react";
-import { TouchableWithoutFeedback, TouchableOpacity, Text, View } from "react-native";
-
-import colors from "@constants/colors";
-
-import SearchInput from "@components/SearchInput";
+import { TouchableWithoutFeedback, TouchableOpacity, View } from "react-native";
 
 import { Container, RowContainer, Title, BaseContainer } from "./styles";
 
@@ -11,10 +7,10 @@ interface HeaderProps {
   name: string;
   leftItem?: ReactNode;
   rightItem?: ReactNode;
-  searchBar?: boolean;
+  bottomItem?: ReactNode;
 }
 
-const Header = ({ name, leftItem, rightItem, searchBar }: HeaderProps) => {
+const Header = ({ name, leftItem, rightItem, bottomItem }: HeaderProps) => {
   return (
     <View>
       <Container>
@@ -24,11 +20,7 @@ const Header = ({ name, leftItem, rightItem, searchBar }: HeaderProps) => {
         </RowContainer>
         {rightItem && <TouchableOpacity>{rightItem}</TouchableOpacity>}
       </Container>
-      {searchBar && (
-        <BaseContainer>
-          <SearchInput />
-        </BaseContainer>
-      )}
+      {bottomItem && <BaseContainer>{bottomItem}</BaseContainer>}
     </View>
   );
 };
