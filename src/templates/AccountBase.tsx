@@ -1,25 +1,32 @@
 import { useContext, FC, PropsWithChildren, ComponentProps } from "react";
-import { SafeAreaView, StatusBar, Text, ScrollView, View } from "react-native";
+import { useState } from "react";
+import { useEffect } from "react";
+import { SafeAreaView, StatusBar, Text, ScrollView, View, ColorValue } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/Feather";
 
 import colors from "@constants/colors";
 import { AccountContext } from "@contexts/AccountContext";
-import { AccountNavigationProps, AccountRouteProps } from "@navigation/types";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import type { StackScreenProps } from "@react-navigation/stack";
+import { AccountNavigationProps } from "@navigation/types";
+import { useNavigation } from "@react-navigation/native";
 import { isAndroid } from "@utils/platform";
 
 import Header from "@components/Header";
-
-const NewAccountButton = (props: ComponentProps<typeof TouchableOpacity>) => (
-  <TouchableOpacity {...props}>
-    <Icon name="plus" size={20} />
-  </TouchableOpacity>
-);
+import { TouchableIcon } from "@components/TouchableIcon";
 
 const BaseAccountScreen = ({ children }: PropsWithChildren) => {
   const navigation = useNavigation<AccountNavigationProps>();
+
+  const getRouteName = () => navigation.getState()?.routes[navigation.getState()?.index].name;
+  const isAccountRoute = () => getRouteName() === "Account";
+
+  const [isAccountScreen, setIsAccountScreen] = useState(isAccountRoute());
+
+  useEffect(() => {
+    navigation.addListener("state", () => {
+      setIsAccountScreen(isAccountRoute());
+    });
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.primary }}>
@@ -32,9 +39,21 @@ const BaseAccountScreen = ({ children }: PropsWithChildren) => {
           }}
         >
           <Header
-            name={"doglas"}
-            leftItem={<Icon name="airplay" size={20} />}
-            rightItem={<NewAccountButton onPress={() => navigation?.navigate("Account", {})} />}
+            name={!isAccountScreen ? "Plano de Contas" : "Inserir Conta"}
+            leftItem={
+              isAccountScreen && (
+                <TouchableIcon name="chevron-left" onPress={() => navigation?.goBack()} color="white" size={32} />
+              )
+            }
+            rightItem={
+              <TouchableIcon
+                name={isAccountScreen ? "check" : "plus"}
+                onPress={() => navigation?.navigate("Account", {})}
+                color="white"
+                size={30}
+              />
+            }
+            searchBar={!isAccountScreen}
           />
         </SafeAreaView>
       </View>

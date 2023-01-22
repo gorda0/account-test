@@ -9,7 +9,9 @@ export type AccountStackParamMap = {
 };
 
 export type StackKeys = keyof AccountStackParamMap;
-export type AccountNavigationProps<T = undefined> = T extends StackKeys
+export type AccountNavigationProps<T extends StackKeys | undefined = undefined> = T extends StackKeys
   ? StackNavigationProp<AccountStackParamMap, T>
   : StackNavigationProp<AccountStackParamMap>;
-export type AccountRouteProps<T extends StackKeys> = RouteProp<AccountStackParamMap, T>;
+export type AccountRouteProps<T extends StackKeys | undefined = undefined> = T extends StackKeys
+  ? RouteProp<AccountStackParamMap, T>
+  : RouteProp<AccountStackParamMap>;

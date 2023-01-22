@@ -5,23 +5,30 @@ import colors from "@constants/colors";
 
 import SearchInput from "@components/SearchInput";
 
-import { Container, BaseContainer } from "./styles";
+import { Container, RowContainer, Title, BaseContainer } from "./styles";
 
 interface HeaderProps {
   name: string;
-  leftItem: ReactNode;
-  rightItem: ReactNode;
+  leftItem?: ReactNode;
+  rightItem?: ReactNode;
+  searchBar?: boolean;
 }
 
-const Header = ({ name, leftItem, rightItem }: HeaderProps) => {
+const Header = ({ name, leftItem, rightItem, searchBar }: HeaderProps) => {
   return (
-    <View style={{ flex: 1 }}>
+    <View>
       <Container>
-        <TouchableWithoutFeedback>{leftItem}</TouchableWithoutFeedback>
-        <Text>Titulo</Text>
-        <TouchableOpacity>{rightItem}</TouchableOpacity>
+        <RowContainer>
+          {leftItem && <TouchableWithoutFeedback>{leftItem}</TouchableWithoutFeedback>}
+          <Title>{name}</Title>
+        </RowContainer>
+        {rightItem && <TouchableOpacity>{rightItem}</TouchableOpacity>}
       </Container>
-      <SearchInput />
+      {searchBar && (
+        <BaseContainer>
+          <SearchInput />
+        </BaseContainer>
+      )}
     </View>
   );
 };
