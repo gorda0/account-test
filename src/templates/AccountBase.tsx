@@ -14,7 +14,7 @@ import { isAndroid } from "@utils/platform";
 import Header from "@components/Header";
 import { TouchableIcon } from "@components/TouchableIcon";
 
-const BaseAccountScreen = ({ children }: PropsWithChildren) => {
+const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
   const navigation = useNavigation<AccountNavigationProps>();
 
   const getRouteName = () => navigation.getState()?.routes[navigation.getState()?.index].name;
@@ -73,4 +73,4 @@ const BaseAccountScreen = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default BaseAccountScreen;
+export default BaseAccoutTemplate;
