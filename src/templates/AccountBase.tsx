@@ -1,9 +1,7 @@
-import { useContext, FC, PropsWithChildren, ComponentProps } from "react";
+import { PropsWithChildren } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { SafeAreaView, StatusBar, Text, ScrollView, View, ColorValue } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import Icon from "react-native-vector-icons/Feather";
+import { SafeAreaView, StatusBar, View } from "react-native";
 
 import colors from "@constants/colors";
 import { AccountContext } from "@contexts/AccountContext";
@@ -12,20 +10,28 @@ import { useNavigation } from "@react-navigation/native";
 import { isAndroid } from "@utils/platform";
 
 import Header from "@components/Header";
-import { TouchableIcon } from "@components/TouchableIcon";
 import SearchInput from "@components/SearchInput";
+import { TouchableIcon } from "@components/TouchableIcon";
 
 const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
   const navigation = useNavigation<AccountNavigationProps>();
 
-  const getRouteName = () => navigation.getState()?.routes[navigation.getState()?.index].name;
+  const getRouteInfo = () => navigation.getState()?.routes[navigation.getState()?.index];
+  const getRouteName = () => getRouteInfo().name;
   const isAccountRoute = () => getRouteName() === "Account";
 
+  const getRouteParams = () => getRouteInfo().params;
+  const isEditing = () => getRouteParams()?.accountId || false;
+
   const [isAccountScreen, setIsAccountScreen] = useState(isAccountRoute());
+  const [isEditingAccount, setIsEditingAccount] = useState(isEditing());
+
+  const headerLabel = !isAccountScreen ? "Plano de Contas" : isEditingAccount ? "Visualização/Edição" : "Inserir Conta";
 
   useEffect(() => {
     navigation.addListener("state", () => {
       setIsAccountScreen(isAccountRoute());
+      setIsEditingAccount(isEditing());
     });
   }, []);
 
@@ -40,7 +46,7 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
           }}
         >
           <Header
-            name={!isAccountScreen ? "Plano de Contas" : "Inserir Conta"}
+            name={headerLabel}
             leftItem={
               isAccountScreen && (
                 <TouchableIcon name="chevron-left" onPress={() => navigation?.goBack()} color="white" size={32} />
