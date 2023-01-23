@@ -2,6 +2,7 @@ import { APPLICATION_PREFIX } from "@constants/application";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const saveData = async <T>(data: T) => {
+    console.log(data, "data");
   return await AsyncStorage.setItem(APPLICATION_PREFIX, JSON.stringify(data));
 };
 

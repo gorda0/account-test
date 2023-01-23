@@ -1,7 +1,6 @@
 import { createContext, FC, PropsWithChildren, useEffect, useState } from "react";
 
 import { getData, saveData } from "@utils/storage";
-import { Immutable } from "immer";
 import { WritableDraft } from "immer/dist/internal";
 import { useImmer } from "use-immer";
 
@@ -34,7 +33,7 @@ const useAccountStore = (accounts: AccountStoreModel) => {
   const addAccount = (account: AccountModel) =>
     setAccountState(draft => {
       let hasErrors = false;
-      const matchedAccounts = draft.accounts.filter(previousAccount => previousAccount.code !== account.code);
+      const matchedAccounts = draft.accounts.filter(previousAccount => previousAccount.code === account.code);
 
       if (matchedAccounts.length) {
         hasErrors = true;
@@ -67,6 +66,7 @@ const useAccountStore = (accounts: AccountStoreModel) => {
 };
 
 const useStateWrapper = () => {
+  const [hasBooted, setHasBooted] = useState(false);
   const [tempMethod, setTempMethod] = useState(emptyTempMethod);
 
   const { setAccountState, ...accountState } = useAccountStore(initialState);
@@ -77,16 +77,17 @@ const useStateWrapper = () => {
   const bootStorage = async () => {
     const storedState = await getData<WritableDraft<typeof initialState>>();
 
-    if (storedState?.accounts.length) {
+    if (storedState?.accounts.length)
       setAccountState(draft => {
         draft.accounts = storedState.accounts;
       });
-    }
+
+    setHasBooted(true);
   };
 
   useEffect(() => {
-    saveData(accountState);
-  }, [accountState]);
+    if (hasBooted) saveData({ accounts: accountState.accounts });
+  }, [accountState.accounts]);
 
   useEffect(() => {
     bootStorage();

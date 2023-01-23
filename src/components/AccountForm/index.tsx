@@ -1,19 +1,10 @@
-import React, { ComponentProps, useEffect, useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import { AccountModel, AccountType } from "@models/account";
 
-const Input = (props: ComponentProps<typeof TextInput>) => {
-  return (
-    <TextInput
-      {...props}
-      style={{
-        borderWidth: 1,
-      }}
-    />
-  );
-};
+import { Input } from "./styles";
 
 interface AccountFormProps {
   initialValues?: Partial<AccountModel>;
@@ -77,10 +68,15 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         value={parentCode}
         items={parentOptions}
         setOpen={setOpenParentCodePicker}
-        setValue={setParentCode}
+        setValue={value => {
+          const state = value((_: string) => null);
+
+          setParentCode(state);
+          setFormValue("code")(state + ".");
+        }}
       />
       <Text>Código</Text>
-      <Input onChangeText={setFormValue("code")} defaultValue={initialFormState.code} />
+      <Input onChangeText={setFormValue("code")} defaultValue={initialFormState.code} value={formState.code} />
       <Text>Nome</Text>
       <Input onChangeText={setFormValue("name")} defaultValue={initialFormState.name} />
       <Text>Tipo</Text>
