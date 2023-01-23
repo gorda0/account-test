@@ -1,7 +1,7 @@
 import { PropsWithChildren, Ref, useContext, useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { SafeAreaView, StatusBar, TouchableOpacity, View } from "react-native";
+import { LayoutAnimation, SafeAreaView, StatusBar, TouchableOpacity, View } from "react-native";
 
 import colors from "@constants/colors";
 import { AccountContext } from "@contexts/AccountContext";
@@ -48,7 +48,15 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
             name={headerLabel}
             leftItem={
               isAccountScreen && (
-                <TouchableIcon name="chevron-left" onPress={() => navigation?.goBack()} color="white" size={32} />
+                <TouchableIcon
+                  name="chevron-left"
+                  onPress={() => {
+                    navigation?.goBack();
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                  }}
+                  color="white"
+                  size={32}
+                />
               )
             }
             rightItem={
@@ -62,6 +70,8 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
                   } else {
                     navigation?.navigate("Account", {});
                   }
+
+                  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 }}
                 color="white"
                 size={30}

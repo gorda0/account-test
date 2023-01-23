@@ -71,9 +71,11 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         setValue={value => {
           const state = value((_: string) => null);
           const selected = previousAccounts.find(account => account.code === state);
-
+          const parentChildrenCount = previousAccounts.filter(
+            previousAccount => previousAccount.parentCode === state,
+          ).length;
           setParentCode(state);
-          setFormValue("code")(state + ".");
+          setFormValue("code")(state + "." + (parentChildrenCount + 1));
           if (selected) setAccountType(selected.type);
         }}
       />

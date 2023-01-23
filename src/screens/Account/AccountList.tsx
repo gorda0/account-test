@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { useContext, useState } from "react";
+import { Text, View, TouchableOpacity, LayoutAnimation } from "react-native";
 
 import colors from "@constants/colors";
 import { AccountContext } from "@contexts/AccountContext";
@@ -9,15 +9,20 @@ import styled from "styled-components";
 
 import { BlankView } from "@components/BlankView";
 import { RowContainer, Title } from "@components/Header/styles";
+import DeleteModal from "@components/Modal/DeleteModal";
 import { TouchableIcon } from "@components/TouchableIcon";
 
-import { AccountType } from "@models/account";
+import { AccountModel, AccountType } from "@models/account";
 
 import { AccountCounter, AccountItem, ListContainer, PageTitle, Container } from "./styles";
+
+const createAccountLabel = (account: AccountModel | null) => (account ? `${account.code} - ${account.name}` : "");
 
 const AccountListScreen = () => {
   const navigation = useNavigation<AccountNavigationProps<"AccountList">>();
   const { accounts, removeAccount } = useContext(AccountContext);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState<AccountModel | null>(null);
 
   return (
     <BlankView>
@@ -30,22 +35,39 @@ const AccountListScreen = () => {
         {accounts.map((account, accountIdx) => (
           <AccountItem
             key={account.name + accountIdx}
-            onPress={() => navigation.navigate("Account", { accountId: account.code })}
+            onPress={() => {
+              navigation.navigate("Account", { accountId: account.code });
+              LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            }}
           >
             <Container>
-              <Text>
-                {account.code} - {account.name}
+              <Text style={{ color: account.type === AccountType.Income ? colors.green : colors.orange }}>
+                {createAccountLabel(account)}
               </Text>
               <TouchableIcon
                 name="trash"
                 size={20}
                 color={colors.grayLight}
-                onPress={() => removeAccount(account.code)}
+                onPress={() => {
+                  setSelectedAccount(account);
+                  setOpenDeleteModal(true);
+                }}
               />
             </Container>
           </AccountItem>
         ))}
       </ListContainer>
+      <DeleteModal
+        isVisible={openDeleteModal}
+        label={createAccountLabel(selectedAccount)}
+        onCancel={() => setOpenDeleteModal(false)}
+        onConfirm={() => {
+          if (selectedAccount) {
+            removeAccount(selectedAccount.code);
+            setOpenDeleteModal(false);
+          }
+        }}
+      />
     </BlankView>
   );
 };
