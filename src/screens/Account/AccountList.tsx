@@ -1,14 +1,13 @@
 import { useContext, useState } from "react";
-import { Text, View, TouchableOpacity, LayoutAnimation } from "react-native";
+import { Text, LayoutAnimation } from "react-native";
 
 import colors from "@constants/colors";
 import { AccountContext } from "@contexts/AccountContext";
 import { AccountNavigationProps } from "@navigation/types";
 import { useNavigation } from "@react-navigation/native";
-import styled from "styled-components";
 
 import { BlankView } from "@components/BlankView";
-import { RowContainer, Title } from "@components/Header/styles";
+import { RowContainer } from "@components/Header/styles";
 import DeleteModal from "@components/Modal/DeleteModal";
 import { TouchableIcon } from "@components/TouchableIcon";
 

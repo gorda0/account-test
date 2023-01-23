@@ -1,10 +1,8 @@
 import { useContext } from "react";
-import { Text, View } from "react-native";
 
-import colors from "@constants/colors";
 import { AccountContext } from "@contexts/AccountContext";
 import { AccountRouteProps } from "@navigation/types";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
 import AccountForm from "@components/AccountForm";
 import { BlankView } from "@components/BlankView";

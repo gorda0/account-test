@@ -2,6 +2,7 @@ import { ScrollView, Text, TouchableOpacity } from "react-native";
 
 import colors from "@constants/colors";
 import styled from "styled-components";
+
 import { RowContainer } from "@components/Header/styles";
 
 export const PageTitle = styled(Text)`

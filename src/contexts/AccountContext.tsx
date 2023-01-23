@@ -41,7 +41,6 @@ const useAccountStore = (accounts: AccountStoreModel) => {
       }
 
       if (!hasErrors) {
-        //draft.accounts = draft.accounts.filter(previousAccount => previousAccount.code !== account.code);
         draft.accounts.push(account);
       }
     });

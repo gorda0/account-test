@@ -1,7 +1,7 @@
-import { PropsWithChildren, Ref, useContext, useRef } from "react";
+import { PropsWithChildren, useContext } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { LayoutAnimation, SafeAreaView, StatusBar, TouchableOpacity, View } from "react-native";
+import { LayoutAnimation, SafeAreaView, StatusBar, View } from "react-native";
 
 import colors from "@constants/colors";
 import { AccountContext } from "@contexts/AccountContext";
