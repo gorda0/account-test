@@ -1,7 +1,6 @@
-import React, { ComponentProps, useState } from "react";
+import React, { ComponentProps, useEffect, useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { AccountModel, AccountType } from "@models/account";
 
@@ -18,10 +17,12 @@ const Input = (props: ComponentProps<typeof TextInput>) => {
 
 interface AccountFormProps {
   initialValues?: Partial<AccountModel>;
+  previousAccounts: Array<AccountModel>;
+  updateTempMethod: (method: () => void) => void;
   onSubmit: (data: AccountModel) => void;
 }
 
-const AccountForm = ({ onSubmit, initialValues }: AccountFormProps) => {
+const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMethod }: AccountFormProps) => {
   const {
     code: initialCode,
     parentCode: initialParentCode,
@@ -30,13 +31,31 @@ const AccountForm = ({ onSubmit, initialValues }: AccountFormProps) => {
     type: initialType,
   } = initialValues || {};
 
+  const [openParentCodePicker, setOpenParentCodePicker] = useState(false);
+  const [parentCode, setParentCode] = useState(initialParentCode || "");
+
+  const [accountTypePicker, setAccountTypePicker] = useState(false);
+  const [accountType, setAccountType] = useState(
+    initialType ||
+      (parentCode !== "" && previousAccounts.find(prevAccount => prevAccount.code === parentCode)?.type) ||
+      AccountType.Income,
+  );
+
+  const [openReleasePicker, setOpenReleasePicker] = useState(false);
+  const [isRelease, setIsRelease] = useState(initialIsRelease || true);
+
   const initialFormState = {
     code: initialCode || "",
-    parentCode: initialParentCode || "",
     name: initialName || "",
   };
 
   const [formState, setFormState] = useState(initialFormState);
+  const parentOptions = previousAccounts
+    .filter(account => (initialCode ? account.code !== formState.code : true))
+    .map(account => ({
+      label: `${account.code} - ${account.name}`,
+      value: account.code,
+    }));
 
   const setFormValue = (key: keyof typeof formState) => (value: string) =>
     setFormState({
@@ -44,19 +63,22 @@ const AccountForm = ({ onSubmit, initialValues }: AccountFormProps) => {
       [key]: value,
     });
 
-  const [accountTypePicker, setAccountTypePicker] = useState(false);
-  const [accountType, setAccountType] = useState(initialType || AccountType.Income);
-
-  const [openReleasePicker, setOpenReleasePicker] = useState(false);
-  const [isRelease, setIsRelease] = useState(initialIsRelease || false);
+  useEffect(() => {
+    updateTempMethod(() => {
+      onSubmit({ ...formState, isRelease, type: accountType, parentCode });
+    });
+  }, [formState]);
 
   return (
     <View style={{ flex: 1 }}>
-      <TouchableOpacity onPress={() => onSubmit({ ...formState, isRelease, type: accountType })}>
-        <Text>treste</Text>
-      </TouchableOpacity>
       <Text>Conta pai</Text>
-      <Input onChangeText={setFormValue("parentCode")} defaultValue={initialFormState.parentCode} />
+      <DropDownPicker
+        open={openParentCodePicker}
+        value={parentCode}
+        items={parentOptions}
+        setOpen={setOpenParentCodePicker}
+        setValue={setParentCode}
+      />
       <Text>Código</Text>
       <Input onChangeText={setFormValue("code")} defaultValue={initialFormState.code} />
       <Text>Nome</Text>

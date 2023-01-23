@@ -11,13 +11,15 @@ import { BlankView } from "@components/BlankView";
 
 const AccountScreen = () => {
   const route = useRoute<AccountRouteProps<"Account">>();
-  const { accounts, addAccount, getAccountData } = useContext(AccountContext);
+  const { accounts, addAccount, getAccountData, updateTempMethod } = useContext(AccountContext);
 
   return (
     <BlankView>
       <AccountForm
         onSubmit={addAccount}
+        previousAccounts={accounts.filter(account => account.isRelease)}
         initialValues={route.params.accountId ? getAccountData(route.params.accountId) : {}}
+        updateTempMethod={updateTempMethod}
       />
     </BlankView>
   );

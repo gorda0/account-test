@@ -1,7 +1,7 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, Ref, useContext, useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { SafeAreaView, StatusBar, View } from "react-native";
+import { SafeAreaView, StatusBar, TouchableOpacity, View } from "react-native";
 
 import colors from "@constants/colors";
 import { AccountContext } from "@contexts/AccountContext";
@@ -14,13 +14,13 @@ import SearchInput from "@components/SearchInput";
 import { TouchableIcon } from "@components/TouchableIcon";
 
 const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
+  const { tempMethod } = useContext(AccountContext);
   const navigation = useNavigation<AccountNavigationProps>();
 
-  const getRouteInfo = () => navigation.getState()?.routes[navigation.getState()?.index];
-  const getRouteName = () => getRouteInfo().name;
+  const getRouteName = () => navigation.getState()?.routes[navigation.getState()?.index].name;
   const isAccountRoute = () => getRouteName() === "Account";
 
-  const getRouteParams = () => getRouteInfo().params;
+  const getRouteParams = () => navigation.getState()?.routes[navigation.getState()?.index].params;
   const isEditing = () => getRouteParams()?.accountId || false;
 
   const [isAccountScreen, setIsAccountScreen] = useState(isAccountRoute());
@@ -55,7 +55,14 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
             rightItem={
               <TouchableIcon
                 name={isAccountScreen ? "check" : "plus"}
-                onPress={() => navigation?.navigate("Account", {})}
+                onPress={() => {
+                  if (isAccountScreen) {
+                    tempMethod.method?.();
+                    navigation?.goBack();
+                  } else {
+                    navigation?.navigate("Account", {});
+                  }
+                }}
                 color="white"
                 size={30}
               />

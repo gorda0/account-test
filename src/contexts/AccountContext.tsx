@@ -1,4 +1,4 @@
-import { createContext, FC, PropsWithChildren, useEffect } from "react";
+import { createContext, FC, PropsWithChildren, useEffect, useRef, useState } from "react";
 
 import { getData, saveData } from "@utils/storage";
 import { Immutable } from "immer";
@@ -12,7 +12,15 @@ const initialState: Immutable<AccountStoreModel> = {
 };
 
 const useDispatchWrapper = () => {
+  const [tempMethod, setTempMethod] = useState({
+    method: () => {
+      return;
+    },
+  });
+
   const [accountState, setAccountState] = useImmer(initialState);
+
+  const updateTempMethod = (method: () => void) => setTempMethod({ method });
 
   const addAccount = (account: AccountModel) =>
     setAccountState(draft => {
@@ -22,7 +30,7 @@ const useDispatchWrapper = () => {
 
   const removeAccount = (code: string) =>
     setAccountState(draft => {
-      draft.accounts = draft.accounts.filter(account => account.code !== code);
+      draft.accounts = draft.accounts.filter(account => account.code !== code && account.parentCode !== code);
     });
 
   const getAccountData = (code: string) => accountState.accounts.find(account => account.code === code);
@@ -47,9 +55,11 @@ const useDispatchWrapper = () => {
 
   return {
     ...accountState,
+    tempMethod,
     addAccount,
     removeAccount,
     getAccountData,
+    updateTempMethod,
   };
 };
 
