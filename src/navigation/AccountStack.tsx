@@ -33,11 +33,12 @@ const AccountStack: FC<AccountStackProps> = ({ initialRoute }) => {
         header: () => null,
       }}
     >
-      {(Object.keys(accountStackMap) as Array<StackKeys>).map(key => (
+      {(Object.keys(accountStackMap) as Array<StackKeys>).map((key, keyIdx) => (
         <Stack.Screen
           {...(accountStackMap[key] as StackScreen)}
           name={key}
           component={accountStackMap[key].component as FC}
+          key={key + keyIdx}
         />
       ))}
     </Stack.Navigator>

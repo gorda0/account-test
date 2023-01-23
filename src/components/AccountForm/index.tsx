@@ -70,7 +70,7 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
   }, [formState]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View>
       <Text>Conta pai</Text>
       <DropDownPicker
         open={openParentCodePicker}

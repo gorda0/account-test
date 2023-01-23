@@ -23,9 +23,9 @@ export const SearchIcon = styled(Icon)`
 
 export const Input = styled(TextInput)`
   flex: 1;
-  padding-top: 10;
-  padding-right: 10;
-  padding-bottom: 10;
-  padding-left: 0;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 0px;
   color: ${colors.gray};
 `;

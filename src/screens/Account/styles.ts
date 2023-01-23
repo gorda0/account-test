@@ -14,7 +14,7 @@ export const AccountCounter = styled(Text)`
 `;
 
 export const ListContainer = styled(ScrollView)`
-  margin-top: 10;
+  margin-top: 10px;
   flex: 1;
 `;
 
