@@ -7,28 +7,44 @@ import { useImmer } from "use-immer";
 
 import { AccountStoreModel, AccountModel } from "@models/account";
 
+type AccountError = {
+  message: string;
+};
+
 const emptyTempMethod = {
   method: () => {
     return;
   },
 };
 
-const initialState: Immutable<AccountStoreModel> = {
+const initialState: AccountStoreModel = {
   accounts: [],
 };
 
-const useStateWrapper = () => {
-  const [tempMethod, setTempMethod] = useState(emptyTempMethod);
+const useAccountStore = (accounts: AccountStoreModel) => {
+  const [accountState, setAccountState] = useImmer(accounts);
+  const [errors, setErrors] = useState<Array<AccountError>>([]);
 
-  const [accountState, setAccountState] = useImmer(initialState);
-
-  const updateTempMethod = (method: () => void) => setTempMethod({ method });
-  const resetTempMethod = () => setTempMethod(emptyTempMethod);
+  const pushError = (error: AccountError) => setErrors([...errors, error]);
+  const popErrors = () => {
+    if (errors.length) setErrors(errors.slice(0, -1));
+  };
+  const cleanErrors = () => setErrors([]);
 
   const addAccount = (account: AccountModel) =>
     setAccountState(draft => {
-      draft.accounts = draft.accounts.filter(previousAccount => previousAccount.code !== account.code);
-      draft.accounts.push(account);
+      let hasErrors = false;
+      const matchedAccounts = draft.accounts.filter(previousAccount => previousAccount.code !== account.code);
+
+      if (matchedAccounts.length) {
+        hasErrors = true;
+        pushError({ message: "Conta já existente" });
+      }
+
+      if (!hasErrors) {
+        //draft.accounts = draft.accounts.filter(previousAccount => previousAccount.code !== account.code);
+        draft.accounts.push(account);
+      }
     });
 
   const removeAccount = (code: string) =>
@@ -37,6 +53,26 @@ const useStateWrapper = () => {
     });
 
   const getAccountData = (code: string) => accountState.accounts.find(account => account.code === code);
+
+  return {
+    ...accountState,
+    errors,
+    addAccount,
+    removeAccount,
+    getAccountData,
+    setAccountState,
+    popErrors,
+    cleanErrors,
+  };
+};
+
+const useStateWrapper = () => {
+  const [tempMethod, setTempMethod] = useState(emptyTempMethod);
+
+  const { setAccountState, ...accountState } = useAccountStore(initialState);
+
+  const updateTempMethod = (method: () => void) => setTempMethod({ method });
+  const resetTempMethod = () => setTempMethod(emptyTempMethod);
 
   const bootStorage = async () => {
     const storedState = await getData<WritableDraft<typeof initialState>>();
@@ -59,9 +95,6 @@ const useStateWrapper = () => {
   return {
     ...accountState,
     tempMethod,
-    addAccount,
-    removeAccount,
-    getAccountData,
     updateTempMethod,
     resetTempMethod,
   };
