@@ -14,7 +14,7 @@ import SearchInput from "@components/SearchInput";
 import { TouchableIcon } from "@components/TouchableIcon";
 
 const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
-  const { tempMethod } = useContext(AccountContext);
+  const { tempMethod, resetTempMethod } = useContext(AccountContext);
   const navigation = useNavigation<AccountNavigationProps>();
 
   const getRouteName = () => navigation.getState()?.routes[navigation.getState()?.index].name;
@@ -59,6 +59,7 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
                   if (isAccountScreen) {
                     tempMethod.method?.();
                     navigation?.goBack();
+                    resetTempMethod();
                   } else {
                     navigation?.navigate("Account", {});
                   }

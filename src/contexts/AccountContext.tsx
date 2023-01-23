@@ -1,4 +1,4 @@
-import { createContext, FC, PropsWithChildren, useEffect, useRef, useState } from "react";
+import { createContext, FC, PropsWithChildren, useEffect, useState } from "react";
 
 import { getData, saveData } from "@utils/storage";
 import { Immutable } from "immer";
@@ -7,20 +7,23 @@ import { useImmer } from "use-immer";
 
 import { AccountStoreModel, AccountModel } from "@models/account";
 
+const emptyTempMethod = {
+  method: () => {
+    return;
+  },
+};
+
 const initialState: Immutable<AccountStoreModel> = {
   accounts: [],
 };
 
-const useDispatchWrapper = () => {
-  const [tempMethod, setTempMethod] = useState({
-    method: () => {
-      return;
-    },
-  });
+const useStateWrapper = () => {
+  const [tempMethod, setTempMethod] = useState(emptyTempMethod);
 
   const [accountState, setAccountState] = useImmer(initialState);
 
   const updateTempMethod = (method: () => void) => setTempMethod({ method });
+  const resetTempMethod = () => setTempMethod(emptyTempMethod);
 
   const addAccount = (account: AccountModel) =>
     setAccountState(draft => {
@@ -60,11 +63,12 @@ const useDispatchWrapper = () => {
     removeAccount,
     getAccountData,
     updateTempMethod,
+    resetTempMethod,
   };
 };
 
-export const AccountContext = createContext(initialState as ReturnType<typeof useDispatchWrapper>);
+export const AccountContext = createContext(initialState as ReturnType<typeof useStateWrapper>);
 
 export const AccountProvider: FC<PropsWithChildren> = ({ children }) => (
-  <AccountContext.Provider value={useDispatchWrapper()}>{children}</AccountContext.Provider>
+  <AccountContext.Provider value={useStateWrapper()}>{children}</AccountContext.Provider>
 );

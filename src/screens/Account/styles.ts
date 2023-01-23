@@ -24,4 +24,5 @@ export const AccountItem = styled(TouchableOpacity)`
   border-radius: 10px;
   padding-left: 10px;
   padding-right: 10px;
+  margin-bottom: 10px;
 `;
