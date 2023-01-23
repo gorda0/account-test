@@ -58,7 +58,7 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
     updateTempMethod(() => {
       onSubmit({ ...formState, isRelease, type: accountType, parentCode });
     });
-  }, [formState]);
+  }, [formState, accountType, parentCode, isRelease]);
 
   return (
     <View>
@@ -70,9 +70,11 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         setOpen={setOpenParentCodePicker}
         setValue={value => {
           const state = value((_: string) => null);
+          const selected = previousAccounts.find(account => account.code === state);
 
           setParentCode(state);
           setFormValue("code")(state + ".");
+          if (selected) setAccountType(selected.type);
         }}
       />
       <Text>Código</Text>

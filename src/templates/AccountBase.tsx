@@ -75,7 +75,6 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
       <View
         style={{
           backgroundColor: colors.offwhite,
-          flex: 1,
           flexGrow: 1,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,

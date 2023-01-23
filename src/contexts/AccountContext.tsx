@@ -46,6 +46,12 @@ const useAccountStore = (accounts: AccountStoreModel) => {
       }
     });
 
+  const editAccount = (account: AccountModel) =>
+    setAccountState(draft => {
+      draft.accounts = draft.accounts.filter(previousAccount => previousAccount.code !== account.code);
+      draft.accounts.push(account);
+    });
+
   const removeAccount = (code: string) =>
     setAccountState(draft => {
       draft.accounts = draft.accounts.filter(account => account.code !== code && account.parentCode !== code);
@@ -57,6 +63,7 @@ const useAccountStore = (accounts: AccountStoreModel) => {
     ...accountState,
     errors,
     addAccount,
+    editAccount,
     removeAccount,
     getAccountData,
     setAccountState,
