@@ -37,12 +37,11 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.primary }}>
-      <View style={{ minHeight: 200, backgroundColor: colors.primary }}>
+      <View style={{ flexShrink: 1, backgroundColor: colors.primary }}>
         <SafeAreaView
           style={{
             backgroundColor: colors.primary,
             paddingTop: isAndroid ? StatusBar.currentHeight : 0,
-            maxHeight: 90,
           }}
         >
           <Header
@@ -77,6 +76,7 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
         style={{
           backgroundColor: colors.offwhite,
           flex: 1,
+          flexGrow: 1,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
           padding: 20,

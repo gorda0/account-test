@@ -1,4 +1,4 @@
-import { ComponentProps, ComponentPropsWithRef } from "react";
+import { ComponentPropsWithRef } from "react";
 import { TouchableOpacity, ColorValue } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 

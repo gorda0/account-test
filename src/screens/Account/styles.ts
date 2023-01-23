@@ -2,6 +2,7 @@ import { ScrollView, Text, TouchableOpacity } from "react-native";
 
 import colors from "@constants/colors";
 import styled from "styled-components";
+import { RowContainer } from "@components/Header/styles";
 
 export const PageTitle = styled(Text)`
   font-size: 20px;
@@ -25,4 +26,10 @@ export const AccountItem = styled(TouchableOpacity)`
   padding-left: 10px;
   padding-right: 10px;
   margin-bottom: 10px;
+`;
+export const Container = styled(RowContainer)`
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 `;

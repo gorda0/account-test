@@ -8,12 +8,12 @@ import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components";
 
 import { BlankView } from "@components/BlankView";
-import { Container, RowContainer, Title } from "@components/Header/styles";
+import { RowContainer, Title } from "@components/Header/styles";
 import { TouchableIcon } from "@components/TouchableIcon";
 
 import { AccountType } from "@models/account";
 
-import { AccountCounter, AccountItem, ListContainer, PageTitle } from "./styles";
+import { AccountCounter, AccountItem, ListContainer, PageTitle, Container } from "./styles";
 
 const AccountListScreen = () => {
   const navigation = useNavigation<AccountNavigationProps<"AccountList">>();

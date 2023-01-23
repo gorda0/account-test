@@ -10,9 +10,9 @@ export const RowContainer = styled(View)`
 `;
 
 export const Container = styled(RowContainer)`
-  min-height: 60px;
   padding-left: 15px;
   padding-right: 15px;
+  margin-bottom: 20px;
 `;
 
 export const LeftContainer = styled(RowContainer)`
