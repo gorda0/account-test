@@ -15,10 +15,10 @@ const Header = ({ name, leftItem, rightItem, bottomItem }: HeaderProps) => {
     <View>
       <Container>
         <RowContainer>
-          {leftItem && <TouchableWithoutFeedback>{leftItem}</TouchableWithoutFeedback>}
+          {leftItem}
           <Title>{name}</Title>
         </RowContainer>
-        {rightItem && <TouchableOpacity>{rightItem}</TouchableOpacity>}
+        {rightItem}
       </Container>
       {bottomItem && <Container>{bottomItem}</Container>}
     </View>

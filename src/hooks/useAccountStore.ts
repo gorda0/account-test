@@ -42,9 +42,7 @@ const useAccountStore = (accounts: AccountStoreModel) => {
 
   const removeAccount = (account: AccountModel) => {
     setAccountState(draft => {
-      draft.accounts = draft.accounts.filter(
-        previousAccount => previousAccount.code !== account.code && previousAccount.parentCode !== account.parentCode,
-      );
+      draft.accounts = draft.accounts.filter(previousAccount => previousAccount.fullLabel !== account.fullLabel);
     });
   };
 
