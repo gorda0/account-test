@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
+import { suggestNextCode } from "@contexts/AccountContext";
+
 import { AccountModel, AccountType } from "@models/account";
 
 import { Input } from "./styles";
-import { suggestNextCode } from "@contexts/AccountContext";
 
 interface AccountFormProps {
   initialValues?: Partial<AccountModel>;
@@ -34,7 +35,7 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
   );
 
   const [openReleasePicker, setOpenReleasePicker] = useState(false);
-  const [isRelease, setIsRelease] = useState(initialIsRelease || true);
+  const [isRelease, setIsRelease] = useState(!!initialIsRelease);
 
   const initialFormState = {
     code: initialCode || "",
@@ -45,8 +46,8 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
   const parentOptions = previousAccounts
     .filter(account => (initialCode ? account.code !== formState.code : true))
     .map(account => ({
-      label: `${account.code} - ${account.name}`,
-      value: account.code,
+      label: account.fullLabel,
+      value: account.codeLabel,
     }));
 
   const setFormValue = (key: keyof typeof formState) => (value: string) =>
@@ -55,9 +56,19 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
       [key]: value,
     });
 
+  const codeLabel = `${parentCode !== "" ? parentCode + "." + formState.code : formState.code}`;
+
   useEffect(() => {
     updateTempMethod(() => {
-      onSubmit({ ...formState, isRelease, type: accountType, parentCode });
+      onSubmit({
+        ...formState,
+        isRelease,
+        type: accountType,
+        parentCode,
+        code: formState.code.split(".").reverse()[0],
+        codeLabel,
+        fullLabel: `${codeLabel} - ${formState.name}`,
+      });
     });
   }, [formState, accountType, parentCode, isRelease]);
 
@@ -74,7 +85,7 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
           const selected = previousAccounts.find(account => account.code === state);
 
           setParentCode(state);
-          setFormValue("code")(suggestNextCode(state, previousAccounts));
+          setFormValue("code")(suggestNextCode(state, previousAccounts) || "");
           if (selected) setAccountType(selected.type);
         }}
       />
@@ -92,6 +103,7 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         ]}
         setOpen={setAccountTypePicker}
         setValue={setAccountType}
+        disabled={parentCode !== ""}
       />
       <Text>Aceita lançamentos</Text>
       <DropDownPicker

@@ -18,45 +18,29 @@ const emptyTempMethod = {
 
 const initialState: AccountStoreModel = {
   accounts: [],
+  filterItems: [],
+  isSearching: false,
 };
 
-const createAccountLabel = (account: AccountModel | null) =>
-  account ? `${account.parentCode !== "0" ? `${account.parentCode}.` : ""}${account.code}` : "";
-
-export function suggestNextCode(parentCode: string, accounts: Array<AccountModel>, hasReached = false): string {
-  const codes = accounts.map(account => {
-    return createAccountLabel(account);
-  });
-
-  console.log(codes);
-  const [parentId, grandParentCode, ...parentTail] = parentCode.split(".").reverse();
+export function suggestNextCode(parentCode: string, accounts: Array<AccountModel>): string | undefined {
+  const [parentId, grandParentCode, ...parentTail] = parentCode
+    .split(".")
+    .reverse()
+    .filter(item => item);
 
   const parentChildren = accounts.filter(account => account.parentCode === parentCode);
+
   const parentChildrenCount = parentChildren.length;
   const parentGreaterChild =
     Number(parentChildren.sort((a, b) => Number(a.code) - Number(b.code))[parentChildrenCount - 1]?.code) || 0;
 
-  const currentParentCode = Number(parentGreaterChild) + 1;
-  if (hasReached) {
-    return suggestNextCode(
-      [currentParentCode + 1, parentGreaterChild, grandParentCode + 1, ...parentTail]
-        .reverse()
-        .filter(item => item)
-        .join("."),
-      accounts,
-      false,
-    );
-  }
-  if (currentParentCode <= 999) {
-    return [currentParentCode, parentId, grandParentCode, ...parentTail]
-      .reverse()
-      .filter(item => item)
-      .join(".");
-  } else if (parentChildrenCount) {
-    return suggestNextCode([grandParentCode, ...parentTail].reverse().join("."), accounts, true);
-  }
+  const nextParentCode = Number(parentGreaterChild + 1);
 
-  return "";
+  if (nextParentCode <= 999) {
+    return [...parentTail, grandParentCode, parentId, nextParentCode].filter(item => item).join(".");
+  } else if (parentChildrenCount) {
+    return suggestNextCode([...parentTail, grandParentCode].join("."), accounts);
+  }
 }
 
 const useAccountStore = (accounts: AccountStoreModel) => {
@@ -72,7 +56,10 @@ const useAccountStore = (accounts: AccountStoreModel) => {
   const addAccount = (account: AccountModel) =>
     setAccountState(draft => {
       let hasErrors = false;
-      const matchedAccounts = draft.accounts.find(previousAccount => previousAccount.code === account.code);
+      const matchedAccounts = draft.accounts.find(
+        previousAccount =>
+          previousAccount.code === (account.parentCode !== "" ? account.parentCode + "." + account.code : account.code),
+      );
 
       if (matchedAccounts) {
         hasErrors = true;
@@ -86,17 +73,26 @@ const useAccountStore = (accounts: AccountStoreModel) => {
 
   const editAccount = (account: AccountModel) =>
     setAccountState(draft => {
-      draft.accounts = draft.accounts.filter(previousAccount => previousAccount.code !== account.code);
+      draft.accounts = draft.accounts.filter(
+        previousAccount => previousAccount.code !== account.code && previousAccount.parentCode !== account.parentCode,
+      );
       draft.accounts.push(account);
     });
 
-  const removeAccount = (code: string) =>
+  const removeAccount = (account: AccountModel) => {
     setAccountState(draft => {
-      draft.accounts = draft.accounts.filter(account => account.code !== code && account.parentCode !== code);
+      draft.accounts = draft.accounts.filter(
+        previousAccount => previousAccount.code !== account.code && previousAccount.parentCode !== account.parentCode,
+      );
     });
+  };
 
   const getAccountData = (code: string) => accountState.accounts.find(account => account.code === code);
-
+  const setFilterItems = (filteredAccounts: Array<AccountModel>, searchString: string) =>
+    setAccountState(draft => {
+      draft.filterItems = filteredAccounts;
+      draft.isSearching = searchString !== "";
+    });
   return {
     ...accountState,
     errors,
@@ -107,6 +103,7 @@ const useAccountStore = (accounts: AccountStoreModel) => {
     setAccountState,
     popErrors,
     cleanErrors,
+    setFilterItems,
   };
 };
 

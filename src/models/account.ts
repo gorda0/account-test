@@ -9,8 +9,12 @@ export interface AccountModel {
   parentCode: string;
   type: AccountType;
   isRelease: boolean;
+  codeLabel: string;
+  fullLabel: string;
 }
 
 export interface AccountStoreModel {
   accounts: Array<AccountModel>;
+  filterItems: Array<AccountModel>;
+  isSearching: boolean;
 }

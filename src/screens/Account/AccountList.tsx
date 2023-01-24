@@ -15,11 +15,9 @@ import { AccountModel, AccountType } from "@models/account";
 
 import { AccountCounter, AccountItem, ListContainer, PageTitle, Container } from "./styles";
 
-const createAccountLabel = (account: AccountModel | null) => (account ? `${account.code} - ${account.name}` : "");
-
 const AccountListScreen = () => {
   const navigation = useNavigation<AccountNavigationProps<"AccountList">>();
-  const { accounts, removeAccount } = useContext(AccountContext);
+  const { accounts, filterItems, isSearching, removeAccount } = useContext(AccountContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState<AccountModel | null>(null);
 
@@ -27,11 +25,11 @@ const AccountListScreen = () => {
     <BlankView>
       <RowContainer>
         <PageTitle>Listagem</PageTitle>
-        <AccountCounter>{accounts.length} registros</AccountCounter>
+        <AccountCounter>{(isSearching ? filterItems : accounts).length} registros</AccountCounter>
       </RowContainer>
 
       <ListContainer>
-        {accounts.map((account, accountIdx) => (
+        {(isSearching ? filterItems : accounts).map((account, accountIdx) => (
           <AccountItem
             key={account.name + accountIdx}
             onPress={() => {
@@ -41,7 +39,7 @@ const AccountListScreen = () => {
           >
             <Container>
               <Text style={{ color: account.type === AccountType.Income ? colors.green : colors.orange }}>
-                {createAccountLabel(account)}
+                {account.fullLabel}
               </Text>
               <TouchableIcon
                 name="trash"
@@ -58,11 +56,11 @@ const AccountListScreen = () => {
       </ListContainer>
       <DeleteModal
         isVisible={openDeleteModal}
-        label={createAccountLabel(selectedAccount)}
+        label={selectedAccount?.fullLabel || ""}
         onCancel={() => setOpenDeleteModal(false)}
         onConfirm={() => {
           if (selectedAccount) {
-            removeAccount(selectedAccount.code);
+            removeAccount(selectedAccount);
             setOpenDeleteModal(false);
           }
         }}

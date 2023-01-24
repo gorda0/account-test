@@ -14,7 +14,7 @@ import SearchInput from "@components/SearchInput";
 import { TouchableIcon } from "@components/TouchableIcon";
 
 const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
-  const { tempMethod, resetTempMethod } = useContext(AccountContext);
+  const { accounts, tempMethod, resetTempMethod, setFilterItems } = useContext(AccountContext);
   const navigation = useNavigation<AccountNavigationProps>();
 
   const getRouteName = () => navigation.getState()?.routes[navigation.getState()?.index].name;
@@ -77,7 +77,18 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
                 size={30}
               />
             }
-            bottomItem={!isAccountScreen && <SearchInput />}
+            bottomItem={
+              !isAccountScreen && (
+                <SearchInput
+                  onSearch={value =>
+                    setFilterItems(
+                      accounts.filter(account => account.fullLabel.includes(value)),
+                      value,
+                    )
+                  }
+                />
+              )
+            }
           />
         </SafeAreaView>
       </View>

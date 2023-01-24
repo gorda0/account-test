@@ -1,5 +1,6 @@
-import colors from "@constants/colors";
 import { View, Text } from "react-native";
+
+import colors from "@constants/colors";
 import styled from "styled-components";
 
 export const CenteredContainer = styled(View)`
