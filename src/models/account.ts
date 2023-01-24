@@ -3,6 +3,10 @@ export enum AccountType {
   Expense = "EXPENSE_ACCOUNT",
 }
 
+export type AccountError = {
+  message: string;
+};
+
 export interface AccountModel {
   name: string;
   code: string;

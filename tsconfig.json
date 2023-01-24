@@ -13,6 +13,7 @@
       "@models/*": ["./src/models/*"],
       "@constants/*": ["./src/constants/*"],
       "@templates/*": ["./src/templates/*"],
+      "@hooks/*": ["./src/hooks/*"],
     },
   }
 }
