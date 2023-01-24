@@ -5,6 +5,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { AccountModel, AccountType } from "@models/account";
 
 import { Input } from "./styles";
+import { suggestNextCode } from "@contexts/AccountContext";
 
 interface AccountFormProps {
   initialValues?: Partial<AccountModel>;
@@ -71,11 +72,9 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         setValue={value => {
           const state = value((_: string) => null);
           const selected = previousAccounts.find(account => account.code === state);
-          const parentChildrenCount = previousAccounts.filter(
-            previousAccount => previousAccount.parentCode === state,
-          ).length;
+
           setParentCode(state);
-          setFormValue("code")(state + "." + (parentChildrenCount + 1));
+          setFormValue("code")(suggestNextCode(state, previousAccounts));
           if (selected) setAccountType(selected.type);
         }}
       />
