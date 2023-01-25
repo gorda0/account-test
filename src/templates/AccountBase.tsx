@@ -1,8 +1,9 @@
 import { PropsWithChildren, useContext } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { LayoutAnimation } from "react-native";
+import { LayoutAnimation, StatusBar } from "react-native";
 
+import colors from "@constants/colors";
 import testIds from "@constants/testIds";
 import { AccountContext } from "@contexts/AccountContext";
 import { AccountNavigationProps } from "@navigation/types";
@@ -49,6 +50,7 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
     <ApplicationContainer>
       <Container>
         <SafeContainer>
+          <StatusBar barStyle="light-content" backgroundColor={colors.primary} />
           <Header
             name={headerLabel}
             leftItem={

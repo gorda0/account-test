@@ -28,15 +28,18 @@ const useAccountStore = (accounts: AccountStoreModel) => {
       }
 
       if (!hasErrors) {
-        draft.accounts.push(account);
+        draft.accounts = draft.accounts.map(draftAccount =>
+          draftAccount.fullLabel === account.fullLabel ? account : draftAccount,
+        );
       }
     });
   };
 
   const editAccount = (account: AccountModel) =>
     setAccountState(draft => {
-      draft.accounts = draft.accounts.filter(previousAccount => previousAccount.fullLabel !== account.fullLabel);
-      draft.accounts.push(account);
+      draft.accounts = draft.accounts.map(draftAccount =>
+        draftAccount.fullLabel === account.fullLabel ? account : draftAccount,
+      );
     });
 
   const removeAccount = (account: AccountModel) => {
@@ -51,6 +54,7 @@ const useAccountStore = (accounts: AccountStoreModel) => {
       draft.filterItems = filteredAccounts;
       draft.isSearching = searchString !== "";
     });
+
   return {
     ...accountState,
     errors,

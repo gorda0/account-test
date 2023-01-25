@@ -3,7 +3,7 @@ import { TextInput } from "react-native";
 import colors from "@constants/colors";
 import styled from "styled-components";
 
-import { BoldLabel } from "@components/Modal/styles";
+import { BoldLabel } from "@components/Dialog/styles";
 
 export const Input = styled(TextInput)`
   min-height: 50px;

@@ -1,7 +1,6 @@
-import { SafeAreaView, StatusBar, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 
 import colors from "@constants/colors";
-import { isAndroid } from "@utils/platform";
 import styled from "styled-components";
 
 export const BaseChildren = styled(View)`
@@ -18,6 +17,7 @@ export const PrimaryContainer = styled(View)`
 
 export const ApplicationContainer = styled(PrimaryContainer)`
   flex: 1;
+  background-color: ${colors.primary};
 `;
 
 export const Container = styled(PrimaryContainer)`
@@ -26,5 +26,5 @@ export const Container = styled(PrimaryContainer)`
 
 export const SafeContainer = styled(SafeAreaView)`
   background-color: ${colors.primary};
-  padding-top: ${isAndroid ? StatusBar.currentHeight : 0};
+  padding-top: 10px;
 `;

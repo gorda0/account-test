@@ -15,6 +15,7 @@ type StackScreenMap = Record<StackKeys, UnnamedStack>;
 const accountStackMap: StackScreenMap = {
   Account: {
     component: AccountScreen,
+    options: { headerShown: false },
   },
   AccountList: {
     component: AccountListScreen,
