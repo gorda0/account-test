@@ -7,8 +7,8 @@ import { AccountNavigationProps } from "@navigation/types";
 import { useNavigation } from "@react-navigation/native";
 
 import { BlankView } from "@components/BlankView";
+import DeleteDialog from "@components/Dialog/DeleteDialog";
 import { RowContainer } from "@components/Header/styles";
-import DeleteModal from "@components/Modal/DeleteModal";
 import { TouchableIcon } from "@components/TouchableIcon";
 
 import { AccountModel, AccountType } from "@models/account";
@@ -58,7 +58,7 @@ const AccountListScreen = () => {
           </AccountItem>
         ))}
       </ListContainer>
-      <DeleteModal
+      <DeleteDialog
         isVisible={openDeleteModal}
         label={selectedAccount?.fullLabel || ""}
         onCancel={() => setOpenDeleteModal(false)}

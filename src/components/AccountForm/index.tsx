@@ -79,36 +79,38 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
   return (
     <View>
       <Label>Conta pai</Label>
-      <DropDownPicker
-        open={openParentCodePicker}
-        value={parentCode}
-        items={parentOptions}
-        setOpen={setOpenParentCodePicker}
-        setValue={value => {
-          const state = value((_: string) => null);
-          const selected = previousAccounts.find(account => account.codeLabel === state);
+      <View style={{ zIndex: 1000 }}>
+        <DropDownPicker
+          open={openParentCodePicker}
+          value={parentCode}
+          items={parentOptions}
+          setOpen={setOpenParentCodePicker}
+          setValue={value => {
+            const state = value((_: string) => null);
+            const selected = previousAccounts.find(account => account.codeLabel === state);
 
-          setParentCode(state);
-          setFormValue("code")(suggestNextCode(selected?.codeLabel || state, previousAccounts) || "");
-          if (selected) setAccountType(selected.type);
-        }}
-        style={{ borderWidth: 0 }}
-        labelStyle={{ fontSize: 18, color: colors.grayBold }}
-        searchable
-        searchPlaceholder="Pesquisar contas"
-        placeholder="Selecionar uma conta"
-        placeholderStyle={{ fontSize: 18, color: colors.grayBold }}
-        dropDownContainerStyle={{ borderWidth: 0.5 }}
-        closeOnBackPressed
-        zIndex={3000}
-        zIndexInverse={1000}
-        disabledItemLabelStyle={{ color: colors.grayLight }}
-        translation={{
-          NOTHING_TO_SHOW: "Nenhuma conta registrada",
-        }}
-        itemSeparator
-        testID={testIds.account.parentCodePicker}
-      />
+            setParentCode(state);
+            setFormValue("code")(suggestNextCode(selected?.codeLabel || state, previousAccounts) || "");
+            if (selected) setAccountType(selected.type);
+          }}
+          style={{ borderWidth: 0 }}
+          labelStyle={{ fontSize: 18, color: colors.grayBold }}
+          searchable
+          searchPlaceholder="Pesquisar contas"
+          placeholder="Selecionar uma conta"
+          placeholderStyle={{ fontSize: 18, color: colors.grayBold }}
+          dropDownContainerStyle={{ borderWidth: 0.5 }}
+          closeOnBackPressed
+          zIndex={3000}
+          zIndexInverse={1000}
+          disabledItemLabelStyle={{ color: colors.grayLight }}
+          translation={{
+            NOTHING_TO_SHOW: "Nenhuma conta registrada",
+          }}
+          itemSeparator
+          testID={testIds.account.parentCodePicker}
+        />
+      </View>
       <Label>Código</Label>
       <Input
         testID={testIds.account.accountCodeInput}
@@ -123,45 +125,49 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         defaultValue={initialFormState.name}
       />
       <Label>Tipo</Label>
-      <DropDownPicker
-        open={accountTypePicker}
-        value={accountType}
-        items={[
-          { label: "Receita", value: AccountType.Income },
-          { label: "Despesa", value: AccountType.Expense },
-        ]}
-        setOpen={setAccountTypePicker}
-        setValue={setAccountType}
-        disabled={parentCode !== ""}
-        disabledStyle={{ backgroundColor: colors.grayLight }}
-        style={{ borderWidth: 0 }}
-        labelStyle={{ fontSize: 18, color: colors.grayBold }}
-        closeOnBackPressed
-        placeholderStyle={{ fontSize: 18, color: colors.grayBold }}
-        dropDownContainerStyle={{ borderWidth: 0.5 }}
-        zIndex={2000}
-        zIndexInverse={2000}
-        testID={testIds.account.accountTypePicker}
-      />
+      <View style={{ zIndex: 1005 }}>
+        <DropDownPicker
+          open={accountTypePicker}
+          value={accountType}
+          items={[
+            { label: "Receita", value: AccountType.Income },
+            { label: "Despesa", value: AccountType.Expense },
+          ]}
+          setOpen={setAccountTypePicker}
+          setValue={setAccountType}
+          disabled={parentCode !== ""}
+          disabledStyle={{ backgroundColor: colors.grayLight }}
+          style={{ borderWidth: 0 }}
+          labelStyle={{ fontSize: 18, color: colors.grayBold }}
+          closeOnBackPressed
+          placeholderStyle={{ fontSize: 18, color: colors.grayBold }}
+          dropDownContainerStyle={{ borderWidth: 0.5 }}
+          zIndex={2000}
+          zIndexInverse={2000}
+          testID={testIds.account.accountTypePicker}
+        />
+      </View>
       <Label>Aceita lançamentos</Label>
-      <DropDownPicker
-        open={openReleasePicker}
-        value={isRelease}
-        items={[
-          { label: "Sim", value: true },
-          { label: "Não", value: false },
-        ]}
-        setOpen={setOpenReleasePicker}
-        setValue={setIsRelease}
-        style={{ borderWidth: 0 }}
-        labelStyle={{ fontSize: 18, color: colors.grayBold }}
-        closeOnBackPressed
-        placeholderStyle={{ fontSize: 18, color: colors.grayBold }}
-        dropDownContainerStyle={{ borderWidth: 0.5 }}
-        zIndex={1000}
-        zIndexInverse={3000}
-        testID={testIds.account.isReleasePicker}
-      />
+      <View style={{ zIndex: 1001 }}>
+        <DropDownPicker
+          open={openReleasePicker}
+          value={isRelease}
+          items={[
+            { label: "Sim", value: true },
+            { label: "Não", value: false },
+          ]}
+          setOpen={setOpenReleasePicker}
+          setValue={setIsRelease}
+          style={{ borderWidth: 0 }}
+          labelStyle={{ fontSize: 18, color: colors.grayBold }}
+          closeOnBackPressed
+          placeholderStyle={{ fontSize: 18, color: colors.grayBold }}
+          dropDownContainerStyle={{ borderWidth: 0.5 }}
+          zIndex={1000}
+          zIndexInverse={3000}
+          testID={testIds.account.isReleasePicker}
+        />
+      </View>
     </View>
   );
 };

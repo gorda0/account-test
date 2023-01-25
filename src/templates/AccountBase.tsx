@@ -1,14 +1,12 @@
 import { PropsWithChildren, useContext } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { LayoutAnimation, SafeAreaView, StatusBar, View } from "react-native";
+import { LayoutAnimation } from "react-native";
 
-import colors from "@constants/colors";
 import testIds from "@constants/testIds";
 import { AccountContext } from "@contexts/AccountContext";
 import { AccountNavigationProps } from "@navigation/types";
 import { useNavigation } from "@react-navigation/native";
-import { isAndroid } from "@utils/platform";
 
 import Header from "@components/Header";
 import SearchInput from "@components/SearchInput";

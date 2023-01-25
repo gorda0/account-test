@@ -30,7 +30,7 @@ export const AccountItem = styled(TouchableOpacity)`
 `;
 
 export const AccountLabel = styled(Text)`
-  font-size: 16;
+  font-size: 16px;
   font-weight: 600;
 `;
 

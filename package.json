@@ -9,10 +9,10 @@
     "start": "react-native start",
     "test": "jest",
     "gradle:clean": "cd android && ./gradlew clean & cd ..",
-    "detox:debug":  "detox test --configuration ios.sim.debug",
+    "detox:debug": "detox test --configuration ios.sim.debug",
     "detox:release": "detox test --configuration ios.sim.release",
     "bundle:android:debug": "npm run detox:debug && npm run gradle:clean && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android && ./gradlew assembleDebug && cd ..",
-    "bundle:android:release" :"npm run detox:release && npm run gradle:clean && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/ && rm -rf android/app/src/main/res/drawable-* && rm -rf android/app/src/main/res/raw/* && cd android && ./gradlew assembleRelease && cd .."
+    "bundle:android:release": "npm run detox:debug && npm run gradle:clean && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/ && rm -rf android/app/src/main/res/drawable-* && rm -rf android/app/src/main/res/raw/* && cd android && ./gradlew assembleRelease && cd .."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.11",
@@ -37,7 +37,6 @@
     "@babel/runtime": "^7.20.0",
     "@react-native-community/eslint-config": "^3.0.0",
     "@tsconfig/react-native": "^2.0.2",
-    "@types/jest": "^29.2.1",
     "@types/react": "^18.0.24",
     "@types/react-native-vector-icons": "^6.4.13",
     "@types/react-test-renderer": "^18.0.0",
@@ -54,7 +53,7 @@
     "metro-react-native-babel-preset": "0.73.7",
     "prettier": "^2.4.1",
     "react-test-renderer": "18.2.0",
-    "typescript": "4.8.4"
+    "typescript": "^4.8.4"
   },
   "jest": {
     "preset": "react-native"

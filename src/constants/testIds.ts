@@ -13,10 +13,15 @@ export default {
     accountCodeInput: "code-input",
     accountNameInput: "account-name-input",
   },
-  deleteModal: {
-    modalId: "delete-modal-id",
-    accountLabel: "delete-modal-account-label",
-    cancelButton: "delete-modal-cancel-button",
-    confirmButton: "delete-modal-confirm-button",
+  deleteDialog: {
+    modalId: "delete-dialog-id",
+    accountLabel: "delete-dialog-account-label",
+    cancelButton: "delete-dialog-cancel-button",
+    confirmButton: "delete-dialog-confirm-button",
+  },
+  messageDialog: {
+    modalId: "message-dialog-id",
+    messageLabel: "message-dialog-label",
+    confirmButton: "message-dialog-confirm-button",
   },
 };

@@ -28,7 +28,7 @@ interface DeleteModalProps {
 
 const DeleteModal = ({ label, isVisible, onCancel, onConfirm }: DeleteModalProps) => {
   return (
-    <Modal testID={testIds.deleteModal.modalId} isVisible={isVisible} onBackdropPress={onCancel}>
+    <Modal testID={testIds.deleteDialog.modalId} isVisible={isVisible} onBackdropPress={onCancel}>
       <ModalContainer>
         <Box>
           <CenteredContainer>
@@ -36,17 +36,17 @@ const DeleteModal = ({ label, isVisible, onCancel, onConfirm }: DeleteModalProps
           </CenteredContainer>
           <TextContainer>
             <MessageText>Deseja excluir a conta</MessageText>
-            <BoldLabel testID={testIds.deleteModal.accountLabel}>{label}?</BoldLabel>
+            <BoldLabel testID={testIds.deleteDialog.accountLabel}>{label}?</BoldLabel>
           </TextContainer>
 
           <ButtonRow>
             <CancelContainer>
-              <TouchableOpacity testID={testIds.deleteModal.cancelButton} onPress={onCancel}>
+              <TouchableOpacity testID={testIds.deleteDialog.cancelButton} onPress={onCancel}>
                 <CancelText>Não!</CancelText>
               </TouchableOpacity>
             </CancelContainer>
             <ConfirmContainer>
-              <TouchableOpacity testID={testIds.deleteModal.confirmButton} onPress={onConfirm}>
+              <TouchableOpacity testID={testIds.deleteDialog.confirmButton} onPress={onConfirm}>
                 <ConfirmText>Com certeza</ConfirmText>
               </TouchableOpacity>
             </ConfirmContainer>

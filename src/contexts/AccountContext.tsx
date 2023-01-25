@@ -33,7 +33,7 @@ export function suggestNextCode(parentCode: string, accounts: Array<AccountModel
   const nextParentCode = Number(parentGreaterChild + 1);
 
   if (nextParentCode <= 999) {
-    return [...parentTail, grandParentCode, parentId, nextParentCode].filter(item => item).join(".");
+    return [...parentTail.reverse(), grandParentCode, parentId, nextParentCode].filter(item => item).join(".");
   } else if (parentChildrenCount) {
     return suggestNextCode([...parentTail, grandParentCode].join("."), accounts);
   }
