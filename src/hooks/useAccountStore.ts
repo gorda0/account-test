@@ -17,21 +17,14 @@ const useAccountStore = (accounts: AccountStoreModel) => {
   const addAccount = (account: AccountModel) => {
     setAccountState(draft => {
       let hasErrors = false;
-      const matchedAccounts = draft.accounts.find(
-        previousAccount =>
-          previousAccount.code === (account.parentCode !== "" ? account.parentCode + "." + account.code : account.code),
-      );
+      const matchedAccounts = draft.accounts.find(previousAccount => previousAccount.codeLabel === account.codeLabel);
 
       if (matchedAccounts) {
         hasErrors = true;
         pushError({ message: "Conta já existente" });
       }
 
-      if (!hasErrors) {
-        draft.accounts = draft.accounts.map(draftAccount =>
-          draftAccount.fullLabel === account.fullLabel ? account : draftAccount,
-        );
-      }
+      if (!hasErrors) draft.accounts.push(account);
     });
   };
 
