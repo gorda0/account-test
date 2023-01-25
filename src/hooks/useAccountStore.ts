@@ -1,30 +1,27 @@
-import { useState } from "react";
-
 import { useImmer } from "use-immer";
 
-import { AccountStoreModel, AccountModel, AccountError } from "@models/account";
+import { AccountStoreModel, AccountModel } from "@models/account";
 
 const useAccountStore = (accounts: AccountStoreModel) => {
   const [accountState, setAccountState] = useImmer(accounts);
-  const [errors, setErrors] = useState<Array<AccountError>>([]);
 
-  const pushError = (error: AccountError) => setErrors([...errors, error]);
-  const popErrors = () => {
-    if (errors.length) setErrors(errors.slice(0, -1));
-  };
-  const cleanErrors = () => setErrors([]);
+  const popErrors = () =>
+    setAccountState(draft => {
+      if (draft.errors.length) draft.errors = draft.errors.slice(0, -1);
+    });
+  const cleanErrors = () =>
+    setAccountState(draft => {
+      draft.errors = [];
+    });
 
   const addAccount = (account: AccountModel) => {
     setAccountState(draft => {
-      let hasErrors = false;
       const matchedAccounts = draft.accounts.find(previousAccount => previousAccount.codeLabel === account.codeLabel);
 
       if (matchedAccounts) {
-        hasErrors = true;
-        pushError({ message: "Conta já existente" });
-      }
-
-      if (!hasErrors) draft.accounts.push(account);
+        draft.errors.push({ message: "Conta já existente" });
+        console.log("ja esxite");
+      } else draft.accounts.push(account);
     });
   };
 
@@ -50,7 +47,6 @@ const useAccountStore = (accounts: AccountStoreModel) => {
 
   return {
     ...accountState,
-    errors,
     addAccount,
     editAccount,
     removeAccount,

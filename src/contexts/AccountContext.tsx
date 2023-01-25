@@ -10,6 +10,7 @@ const initialState: AccountStoreModel = {
   accounts: [],
   filterItems: [],
   isSearching: false,
+  errors: [],
 };
 
 const emptyTempMethod = {
@@ -45,7 +46,7 @@ const useStateWrapper = () => {
 
   const { setAccountState, ...accountState } = useAccountStore(initialState);
 
-  const updateTempMethod = (method: () => void) => setTempMethod({ method });
+  const updateTempMethod = (method: () => void | undefined) => setTempMethod({ method });
   const resetTempMethod = () => setTempMethod(emptyTempMethod);
 
   const bootStorage = async () => {

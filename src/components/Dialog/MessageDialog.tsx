@@ -2,6 +2,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Feather";
 
+import colors from "@constants/colors";
 import testIds from "@constants/testIds";
 
 import {
@@ -9,7 +10,6 @@ import {
   Box,
   CenteredContainer,
   TextContainer,
-  BoldLabel,
   ButtonRow,
   ConfirmContainer,
   ConfirmText,
@@ -17,24 +17,21 @@ import {
 } from "./styles";
 
 interface DeleteModalProps {
-  label: string;
   message: string;
   isVisible: boolean;
-  onCancel: () => void;
   onConfirm: () => void;
 }
 
-const MessageDialog = ({ label, message, isVisible, onConfirm }: DeleteModalProps) => {
+const MessageDialog = ({ message, isVisible, onConfirm }: DeleteModalProps) => {
   return (
     <Modal testID={testIds.messageDialog.modalId} isVisible={isVisible} onBackdropPress={onConfirm}>
       <ModalContainer>
         <Box>
           <CenteredContainer>
-            <Icon color="yellow" size={40} name="warning" />
+            <Icon color={colors.orange} size={40} name="alert-triangle" />
           </CenteredContainer>
           <TextContainer>
-            <MessageText>{message}</MessageText>
-            <BoldLabel testID={testIds.deleteDialog.accountLabel}>{label}?</BoldLabel>
+            <MessageText testID={testIds.messageDialog.messageLabel}>{message}</MessageText>
           </TextContainer>
 
           <ButtonRow>

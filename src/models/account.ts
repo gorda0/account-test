@@ -19,6 +19,7 @@ export interface AccountModel {
 
 export interface AccountStoreModel {
   accounts: Array<AccountModel>;
+  errors: Array<AccountError>;
   filterItems: Array<AccountModel>;
   isSearching: boolean;
 }

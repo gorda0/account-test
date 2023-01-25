@@ -16,7 +16,6 @@ interface AccountFormProps {
   updateTempMethod: (method: () => void) => void;
   onSubmit: (data: AccountModel) => void;
 }
-
 const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMethod }: AccountFormProps) => {
   const {
     codeLabel: initialCode,
