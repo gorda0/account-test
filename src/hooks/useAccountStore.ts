@@ -20,7 +20,6 @@ const useAccountStore = (accounts: AccountStoreModel) => {
 
       if (matchedAccounts) {
         draft.errors.push({ message: "Conta já existente" });
-        console.log("ja esxite");
       } else draft.accounts.push(account);
     });
   };
