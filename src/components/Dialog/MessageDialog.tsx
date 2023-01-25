@@ -1,4 +1,4 @@
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Feather";
 
