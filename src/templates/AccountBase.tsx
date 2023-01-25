@@ -14,6 +14,8 @@ import Header from "@components/Header";
 import SearchInput from "@components/SearchInput";
 import { TouchableIcon } from "@components/TouchableIcon";
 
+import { ApplicationContainer, BaseChildren, Container, SafeContainer } from "./styles";
+
 const {
   baseTemplate: {
     backButton: backButtonId,
@@ -46,14 +48,9 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
   }, []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.primary }}>
-      <View style={{ flexShrink: 1, backgroundColor: colors.primary }}>
-        <SafeAreaView
-          style={{
-            backgroundColor: colors.primary,
-            paddingTop: isAndroid ? StatusBar.currentHeight : 0,
-          }}
-        >
+    <ApplicationContainer>
+      <Container>
+        <SafeContainer>
           <Header
             name={headerLabel}
             leftItem={
@@ -104,21 +101,11 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
               )
             }
           />
-        </SafeAreaView>
-      </View>
+        </SafeContainer>
+      </Container>
 
-      <View
-        style={{
-          backgroundColor: colors.offwhite,
-          flexGrow: 1,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          padding: 20,
-        }}
-      >
-        {children}
-      </View>
-    </View>
+      <BaseChildren>{children}</BaseChildren>
+    </ApplicationContainer>
   );
 };
 
