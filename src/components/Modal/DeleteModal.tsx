@@ -3,6 +3,7 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Feather";
 
 import colors from "@constants/colors";
+import testIds from "@constants/testIds";
 
 import {
   ModalContainer,
@@ -27,7 +28,7 @@ interface DeleteModalProps {
 
 const DeleteModal = ({ label, isVisible, onCancel, onConfirm }: DeleteModalProps) => {
   return (
-    <Modal isVisible={isVisible} onBackdropPress={onCancel}>
+    <Modal testID={testIds.deleteModal.modalId} isVisible={isVisible} onBackdropPress={onCancel}>
       <ModalContainer>
         <Box>
           <CenteredContainer>
@@ -35,17 +36,17 @@ const DeleteModal = ({ label, isVisible, onCancel, onConfirm }: DeleteModalProps
           </CenteredContainer>
           <TextContainer>
             <MessageText>Deseja excluir a conta</MessageText>
-            <BoldLabel>{label}?</BoldLabel>
+            <BoldLabel testID={testIds.deleteModal.accountLabel}>{label}?</BoldLabel>
           </TextContainer>
 
           <ButtonRow>
             <CancelContainer>
-              <TouchableOpacity onPress={onCancel}>
+              <TouchableOpacity testID={testIds.deleteModal.cancelButton} onPress={onCancel}>
                 <CancelText>Não!</CancelText>
               </TouchableOpacity>
             </CancelContainer>
             <ConfirmContainer>
-              <TouchableOpacity onPress={onConfirm}>
+              <TouchableOpacity testID={testIds.deleteModal.confirmButton} onPress={onConfirm}>
                 <ConfirmText>Com certeza</ConfirmText>
               </TouchableOpacity>
             </ConfirmContainer>

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { TouchableWithoutFeedback, TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 
 import { Container, RowContainer, Title } from "./styles";
 

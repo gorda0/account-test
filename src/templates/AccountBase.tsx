@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { LayoutAnimation, SafeAreaView, StatusBar, View } from "react-native";
 
 import colors from "@constants/colors";
+import testIds from "@constants/testIds";
 import { AccountContext } from "@contexts/AccountContext";
 import { AccountNavigationProps } from "@navigation/types";
 import { useNavigation } from "@react-navigation/native";
@@ -12,6 +13,15 @@ import { isAndroid } from "@utils/platform";
 import Header from "@components/Header";
 import SearchInput from "@components/SearchInput";
 import { TouchableIcon } from "@components/TouchableIcon";
+
+const {
+  baseTemplate: {
+    backButton: backButtonId,
+    finishButton: finishButtonId,
+    insertButton: insertButtonId,
+    searchInput: searchInputId,
+  },
+} = testIds;
 
 const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
   const { accounts, tempMethod, resetTempMethod, setFilterItems } = useContext(AccountContext);
@@ -49,6 +59,7 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
             leftItem={
               isAccountScreen && (
                 <TouchableIcon
+                  testID={backButtonId}
                   name="chevron-left"
                   onPress={() => {
                     navigation?.goBack();
@@ -61,6 +72,7 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
             }
             rightItem={
               <TouchableIcon
+                testID={isAccountScreen ? finishButtonId : insertButtonId}
                 name={isAccountScreen ? "check" : "plus"}
                 onPress={() => {
                   if (isAccountScreen) {
@@ -81,6 +93,7 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
             bottomItem={
               !isAccountScreen && (
                 <SearchInput
+                  testID={searchInputId}
                   onSearch={value =>
                     setFilterItems(
                       accounts.filter(account => account.fullLabel.includes(value)),

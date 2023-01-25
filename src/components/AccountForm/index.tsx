@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import colors from "@constants/colors";
+import testIds from "@constants/testIds";
 import { suggestNextCode } from "@contexts/AccountContext";
 
 import { AccountModel, AccountType } from "@models/account";
@@ -18,7 +19,7 @@ interface AccountFormProps {
 
 const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMethod }: AccountFormProps) => {
   const {
-    code: initialCode,
+    codeLabel: initialCode,
     parentCode: initialParentCode,
     name: initialName,
     isRelease: initialIsRelease,
@@ -46,10 +47,11 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
   const [formState, setFormState] = useState(initialFormState);
   const parentOptions = previousAccounts.map(account => ({
     label: account.fullLabel,
-    value: account.code,
+    value: account.codeLabel,
     disabled: !account.isRelease,
     key: account.fullLabel,
     parent: account.parentCode || undefined,
+    testID: account.fullLabel,
   }));
 
   const setFormValue = (key: keyof typeof formState) => (value: string) =>
@@ -84,10 +86,10 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         setOpen={setOpenParentCodePicker}
         setValue={value => {
           const state = value((_: string) => null);
-          const selected = previousAccounts.find(account => account.code === state);
+          const selected = previousAccounts.find(account => account.codeLabel === state);
 
           setParentCode(state);
-          setFormValue("code")(suggestNextCode(state, previousAccounts) || "");
+          setFormValue("code")(suggestNextCode(selected?.codeLabel || state, previousAccounts) || "");
           if (selected) setAccountType(selected.type);
         }}
         style={{ borderWidth: 0 }}
@@ -101,16 +103,25 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         zIndex={3000}
         zIndexInverse={1000}
         disabledItemLabelStyle={{ color: colors.grayLight }}
+        translation={{
+          NOTHING_TO_SHOW: "Nenhuma conta registrada",
+        }}
+        itemSeparator
+        testID={testIds.account.parentCodePicker}
       />
       <Label>Código</Label>
       <Input
-        testID="input-code"
+        testID={testIds.account.accountCodeInput}
         onChangeText={setFormValue("code")}
         defaultValue={initialFormState.code}
         value={formState.code}
       />
       <Label>Nome</Label>
-      <Input testID="input-name" onChangeText={setFormValue("name")} defaultValue={initialFormState.name} />
+      <Input
+        testID={testIds.account.accountNameInput}
+        onChangeText={setFormValue("name")}
+        defaultValue={initialFormState.name}
+      />
       <Label>Tipo</Label>
       <DropDownPicker
         open={accountTypePicker}
@@ -130,6 +141,7 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         dropDownContainerStyle={{ borderWidth: 0.5 }}
         zIndex={2000}
         zIndexInverse={2000}
+        testID={testIds.account.accountTypePicker}
       />
       <Label>Aceita lançamentos</Label>
       <DropDownPicker
@@ -148,6 +160,7 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         dropDownContainerStyle={{ borderWidth: 0.5 }}
         zIndex={1000}
         zIndexInverse={3000}
+        testID={testIds.account.isReleasePicker}
       />
     </View>
   );

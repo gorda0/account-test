@@ -1,12 +1,20 @@
 module.exports = {
   root: true,
+  overrides: [
+    {
+      files: ["**/*.test.js", "**/*.test.jsx"],
+      env: {
+        jest: true,
+      },
+    },
+  ],
   extends: [
     "@react-native-community",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "plugin:jsx-a11y/recommended",
   ],
-  plugins: ["import-helpers", "jsx-a11y", "prettier"],
+  plugins: ["import-helpers", "jsx-a11y", "prettier", "detox"],
   rules: {
     "react-hooks/exhaustive-deps": "off",
     "no-sparse-arrays": "off",
