@@ -14,7 +14,7 @@ const useAccountStore = (accounts: AccountStoreModel) => {
   };
   const cleanErrors = () => setErrors([]);
 
-  const addAccount = (account: AccountModel) =>
+  const addAccount = (account: AccountModel) => {
     setAccountState(draft => {
       let hasErrors = false;
       const matchedAccounts = draft.accounts.find(
@@ -31,12 +31,11 @@ const useAccountStore = (accounts: AccountStoreModel) => {
         draft.accounts.push(account);
       }
     });
+  };
 
   const editAccount = (account: AccountModel) =>
     setAccountState(draft => {
-      draft.accounts = draft.accounts.filter(
-        previousAccount => previousAccount.code !== account.code && previousAccount.parentCode !== account.parentCode,
-      );
+      draft.accounts = draft.accounts.filter(previousAccount => previousAccount.fullLabel !== account.fullLabel);
       draft.accounts.push(account);
     });
 
@@ -46,7 +45,7 @@ const useAccountStore = (accounts: AccountStoreModel) => {
     });
   };
 
-  const getAccountData = (code: string) => accountState.accounts.find(account => account.code === code);
+  const getAccountData = (code: string) => accountState.accounts.find(account => account.fullLabel === code);
   const setFilterItems = (filteredAccounts: Array<AccountModel>, searchString: string) =>
     setAccountState(draft => {
       draft.filterItems = filteredAccounts;

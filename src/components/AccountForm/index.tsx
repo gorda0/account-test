@@ -43,12 +43,12 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
   };
 
   const [formState, setFormState] = useState(initialFormState);
-  const parentOptions = previousAccounts
-    .filter(account => (initialCode ? account.code !== formState.code : true))
-    .map(account => ({
-      label: account.fullLabel,
-      value: account.codeLabel,
-    }));
+  const parentOptions = previousAccounts.map(account => ({
+    label: account.fullLabel,
+    value: account.code,
+    disabled: !account.isRelease,
+    key: account.fullLabel,
+  }));
 
   const setFormValue = (key: keyof typeof formState) => (value: string) =>
     setFormState({
@@ -56,7 +56,7 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
       [key]: value,
     });
 
-  const codeLabel = `${parentCode !== "" ? parentCode + "." + formState.code : formState.code}`;
+  const codeLabel = `${parentCode !== "" ? formState.code : formState.code}`;
 
   useEffect(() => {
     updateTempMethod(() => {
@@ -90,9 +90,14 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         }}
       />
       <Text>Código</Text>
-      <Input onChangeText={setFormValue("code")} defaultValue={initialFormState.code} value={formState.code} />
+      <Input
+        testID="input-code"
+        onChangeText={setFormValue("code")}
+        defaultValue={initialFormState.code}
+        value={formState.code}
+      />
       <Text>Nome</Text>
-      <Input onChangeText={setFormValue("name")} defaultValue={initialFormState.name} />
+      <Input testID="input-name" onChangeText={setFormValue("name")} defaultValue={initialFormState.name} />
       <Text>Tipo</Text>
       <DropDownPicker
         open={accountTypePicker}

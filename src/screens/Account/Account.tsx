@@ -16,7 +16,7 @@ const AccountScreen = () => {
     <BlankView>
       <AccountForm
         onSubmit={isEditing ? editAccount : addAccount}
-        previousAccounts={accounts.filter(account => account.isRelease)}
+        previousAccounts={accounts}
         initialValues={isEditing ? getAccountData(route.params.accountId) : {}}
         updateTempMethod={updateTempMethod}
       />

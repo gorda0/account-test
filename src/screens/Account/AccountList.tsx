@@ -31,9 +31,9 @@ const AccountListScreen = () => {
       <ListContainer>
         {(isSearching ? filterItems : accounts).map((account, accountIdx) => (
           <AccountItem
-            key={account.name + accountIdx}
+            key={account.fullLabel + accountIdx}
             onPress={() => {
-              navigation.navigate("Account", { accountId: account.code });
+              navigation.navigate("Account", { accountId: account.fullLabel });
               LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
             }}
           >

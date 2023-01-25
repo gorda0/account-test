@@ -72,6 +72,7 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
                   }
 
                   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                  setFilterItems([], "");
                 }}
                 color="white"
                 size={30}
