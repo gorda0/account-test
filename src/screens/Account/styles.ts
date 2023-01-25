@@ -12,7 +12,7 @@ export const PageTitle = styled(Text)`
 `;
 
 export const AccountCounter = styled(Text)`
-  color: ${colors.grayLight};
+  color: ${colors.gray};
 `;
 
 export const ListContainer = styled(ScrollView)`
@@ -28,6 +28,12 @@ export const AccountItem = styled(TouchableOpacity)`
   padding-right: 10px;
   margin-bottom: 10px;
 `;
+
+export const AccountLabel = styled(Text)`
+  font-size: 16;
+  font-weight: 600;
+`;
+
 export const Container = styled(RowContainer)`
   padding-left: 10px;
   padding-right: 10px;

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Text, LayoutAnimation } from "react-native";
+import { LayoutAnimation } from "react-native";
 
 import colors from "@constants/colors";
 import { AccountContext } from "@contexts/AccountContext";
@@ -13,7 +13,7 @@ import { TouchableIcon } from "@components/TouchableIcon";
 
 import { AccountModel, AccountType } from "@models/account";
 
-import { AccountCounter, AccountItem, ListContainer, PageTitle, Container } from "./styles";
+import { AccountCounter, AccountItem, ListContainer, PageTitle, Container, AccountLabel } from "./styles";
 
 const AccountListScreen = () => {
   const navigation = useNavigation<AccountNavigationProps<"AccountList">>();
@@ -38,9 +38,13 @@ const AccountListScreen = () => {
             }}
           >
             <Container>
-              <Text style={{ color: account.type === AccountType.Income ? colors.green : colors.orange }}>
+              <AccountLabel
+                style={{
+                  color: account.type === AccountType.Income ? colors.green : colors.orange,
+                }}
+              >
                 {account.fullLabel}
-              </Text>
+              </AccountLabel>
               <TouchableIcon
                 name="trash"
                 size={20}

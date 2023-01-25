@@ -23,10 +23,6 @@ export const TextContainer = styled(CenteredContainer)`
   margin: 20px 0px;
 `;
 
-export const BoldLabel = styled(Text)`
-  font-weight: 600;
-`;
-
 export const ButtonRow = styled(View)`
   flex-direction: row;
   margin: 0px;
@@ -56,4 +52,12 @@ export const CancelText = styled(Text)`
 
 export const ConfirmText = styled(Text)`
   color: white;
+`;
+
+export const MessageText = styled(Text)`
+  color: ${colors.grayBold};
+`;
+
+export const BoldLabel = styled(MessageText)`
+  font-weight: 600;
 `;

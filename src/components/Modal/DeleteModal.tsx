@@ -1,4 +1,3 @@
-import { Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Feather";
@@ -16,6 +15,7 @@ import {
   CancelText,
   ConfirmContainer,
   ConfirmText,
+  MessageText,
 } from "./styles";
 
 interface DeleteModalProps {
@@ -34,7 +34,7 @@ const DeleteModal = ({ label, isVisible, onCancel, onConfirm }: DeleteModalProps
             <Icon color={colors.magenta} size={40} name="trash" />
           </CenteredContainer>
           <TextContainer>
-            <Text>Deseja excluir a conta</Text>
+            <MessageText>Deseja excluir a conta</MessageText>
             <BoldLabel>{label}?</BoldLabel>
           </TextContainer>
 
