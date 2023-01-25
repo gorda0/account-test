@@ -1,7 +1,7 @@
 export default {
   baseTemplate: {
     backButton: "base-template-back-button",
-    finishButton: "base-template-back-button",
+    finishButton: "base-template-finish-button",
     insertButton: "base-template-insert-button",
     searchInput: "base-template-search-input",
   },
