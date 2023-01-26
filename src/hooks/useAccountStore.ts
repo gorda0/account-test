@@ -24,7 +24,7 @@ const useAccountStore = (accounts: AccountStoreModel) => {
 
       if (matchedAccounts) {
         draft.errors.push({ message: "Conta já existente" });
-      } else if (!matchedParentAccounts?.isRelease) {
+      } else if (matchedParentAccounts && !matchedParentAccounts.isRelease) {
         draft.errors.push({ message: "Conta pai não aceita lançamentos" });
       } else {
         draft.accounts.push({
@@ -36,8 +36,8 @@ const useAccountStore = (accounts: AccountStoreModel) => {
         draft.accounts.sort((a, b) =>
           a.codeLabel.localeCompare(b.codeLabel, undefined, { numeric: true, sensitivity: "base" }),
         );
-
       }
+
       hasErrors = !!draft.errors?.length;
     });
 
