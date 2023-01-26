@@ -31,7 +31,7 @@ const useStateWrapper = () => {
   const bootStorage = async () => {
     const storedState = await getData<WritableDraft<typeof initialState>>();
 
-    if (storedState?.accounts.length)
+    if (storedState?.accounts?.length)
       setAccountState(draft => {
         draft.accounts = storedState.accounts;
       });

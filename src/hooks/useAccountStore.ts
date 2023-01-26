@@ -21,7 +21,12 @@ const useAccountStore = (accounts: AccountStoreModel) => {
       if (matchedAccounts) {
         draft.errors.push({ message: "Conta já existente" });
       } else {
-        draft.accounts.push(account);
+        draft.accounts.push({
+          ...account,
+          parentCode:
+            account.parentCode !== "" ? account.parentCode : account.codeLabel.split(".").splice(0, -1).join("."),
+        });
+
         draft.accounts.sort((a, b) =>
           a.codeLabel.localeCompare(b.codeLabel, undefined, { numeric: true, sensitivity: "base" }),
         );

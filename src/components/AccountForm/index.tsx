@@ -35,7 +35,7 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
       AccountType.Income,
   );
 
-  const [openReleasePicker, setOpenReleasePicker] = useState(false);
+  const [openReleasePicker, setOpenReleasePicker] = useState(true);
   const [isRelease, setIsRelease] = useState(!!initialIsRelease);
 
   const initialFormState = {
@@ -49,8 +49,14 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
     value: account.codeLabel,
     disabled: !account.isRelease,
     key: account.fullLabel,
-    parent: account.parentCode || undefined,
     testID: account.fullLabel,
+    ...(previousAccounts.some(prevAccount => {
+      return prevAccount.codeLabel === account.parentCode;
+    })
+      ? {
+          parent: account.parentCode,
+        }
+      : {}),
   }));
 
   const setFormValue = (key: keyof typeof formState) => (value: string) =>
@@ -117,14 +123,7 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         testID={testIds.account.accountCodeInput}
         onChangeText={value => {
           const [_, ...tail] = value.split(".").reverse();
-          if (
-            tail?.length &&
-            previousAccounts.find(
-              prevAccount => prevAccount.codeLabel === tail.reverse().join() && prevAccount.isRelease,
-            )
-          ) {
-            setParentCode(tail.reverse().join("."));
-          }
+          setParentCode(tail.reverse().join("."));
 
           setFormValue("code")(value);
         }}
