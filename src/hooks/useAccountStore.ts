@@ -17,11 +17,15 @@ const useAccountStore = (accounts: AccountStoreModel) => {
   const addAccount = (account: AccountModel) => {
     let hasErrors = false;
     setAccountState(draft => {
-      const matchedAccounts = draft.accounts.find(previousAccount => previousAccount.codeLabel === account.codeLabel);
+      const matchedAccounts = draft.accounts.some(previousAccount => previousAccount.codeLabel === account.codeLabel);
+      const matchedParentAccounts = draft.accounts.find(
+        previousAccount => previousAccount.codeLabel === account.parentCode,
+      );
 
       if (matchedAccounts) {
         draft.errors.push({ message: "Conta já existente" });
-        hasErrors = true;
+      } else if (!matchedParentAccounts?.isRelease) {
+        draft.errors.push({ message: "Conta pai não aceita lançamentos" });
       } else {
         draft.accounts.push({
           ...account,
@@ -32,7 +36,9 @@ const useAccountStore = (accounts: AccountStoreModel) => {
         draft.accounts.sort((a, b) =>
           a.codeLabel.localeCompare(b.codeLabel, undefined, { numeric: true, sensitivity: "base" }),
         );
+
       }
+      hasErrors = !!draft.errors?.length;
     });
 
     return !hasErrors;
