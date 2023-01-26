@@ -20,14 +20,19 @@ const useAccountStore = (accounts: AccountStoreModel) => {
 
       if (matchedAccounts) {
         draft.errors.push({ message: "Conta já existente" });
-      } else draft.accounts.push(account);
+      } else {
+        draft.accounts.push(account);
+        draft.accounts.sort((a, b) =>
+          a.codeLabel.localeCompare(b.codeLabel, undefined, { numeric: true, sensitivity: "base" }),
+        );
+      }
     });
   };
 
   const editAccount = (account: AccountModel) =>
     setAccountState(draft => {
       draft.accounts = draft.accounts.map(draftAccount =>
-        draftAccount.fullLabel === account.fullLabel ? account : draftAccount,
+        draftAccount.codeLabel === account.codeLabel ? account : draftAccount,
       );
     });
 

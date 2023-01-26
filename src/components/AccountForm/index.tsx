@@ -117,8 +117,12 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
         testID={testIds.account.accountCodeInput}
         onChangeText={value => {
           const [_, ...tail] = value.split(".").reverse();
-
-          if (tail && tail.length) {
+          if (
+            tail?.length &&
+            previousAccounts.find(
+              prevAccount => prevAccount.codeLabel === tail.reverse().join() && prevAccount.isRelease,
+            )
+          ) {
             setParentCode(tail.reverse().join("."));
           }
 
