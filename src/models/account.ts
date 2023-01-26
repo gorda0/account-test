@@ -1,6 +1,7 @@
 export enum AccountType {
   Income = "INCOME_ACCOUNT",
   Expense = "EXPENSE_ACCOUNT",
+  Ghost = "GHOST_ACCOUNT",
 }
 
 export type AccountError = {
@@ -15,6 +16,7 @@ export interface AccountModel {
   isRelease: boolean;
   codeLabel: string;
   fullLabel: string;
+  isGhost?: boolean;
 }
 
 export interface AccountStoreModel {

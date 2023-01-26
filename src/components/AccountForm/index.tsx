@@ -4,7 +4,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 import colors from "@constants/colors";
 import testIds from "@constants/testIds";
-import { suggestNextCode } from "@contexts/AccountContext";
+import { mountParentTree, suggestNextCode } from "@utils/account";
 
 import { AccountModel, AccountType } from "@models/account";
 
@@ -89,7 +89,9 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
             const selected = previousAccounts.find(account => account.codeLabel === state);
 
             setParentCode(state);
-            setFormValue("code")(suggestNextCode(selected?.codeLabel || state, previousAccounts) || "");
+            setFormValue("code")(
+              suggestNextCode(selected?.codeLabel || state, mountParentTree(previousAccounts)) || "",
+            );
             if (selected) setAccountType(selected.type);
           }}
           style={{ borderWidth: 0 }}
@@ -113,7 +115,15 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
       <Label>Código</Label>
       <Input
         testID={testIds.account.accountCodeInput}
-        onChangeText={setFormValue("code")}
+        onChangeText={value => {
+          const [_, ...tail] = value.split(".").reverse();
+
+          if (tail && tail.length) {
+            setParentCode(tail.reverse().join("."));
+          }
+
+          setFormValue("code")(value);
+        }}
         defaultValue={initialFormState.code}
         value={formState.code}
       />

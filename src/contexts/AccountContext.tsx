@@ -4,7 +4,7 @@ import useAccountStore from "@hooks/useAccountStore";
 import { getData, saveData } from "@utils/storage";
 import { WritableDraft } from "immer/dist/internal";
 
-import { AccountStoreModel, AccountModel } from "@models/account";
+import { AccountStoreModel } from "@models/account";
 
 const initialState: AccountStoreModel = {
   accounts: [],
@@ -18,27 +18,6 @@ const emptyTempMethod = {
     return;
   },
 };
-
-export function suggestNextCode(parentCode: string, accounts: Array<AccountModel>): string | undefined {
-  const [parentId, grandParentCode, ...parentTail] = parentCode
-    .split(".")
-    .reverse()
-    .filter(item => item);
-
-  const parentChildren = accounts.filter(account => account.parentCode === parentCode);
-
-  const parentChildrenCount = parentChildren.length;
-  const parentGreaterChild =
-    Number(parentChildren.sort((a, b) => Number(a.code) - Number(b.code))[parentChildrenCount - 1]?.code) || 0;
-
-  const nextParentCode = Number(parentGreaterChild + 1);
-
-  if (nextParentCode <= 999) {
-    return [...parentTail.reverse(), grandParentCode, parentId, nextParentCode].filter(item => item).join(".");
-  } else if (parentChildrenCount) {
-    return suggestNextCode([...parentTail, grandParentCode].join("."), accounts);
-  }
-}
 
 const useStateWrapper = () => {
   const [hasBooted, setHasBooted] = useState(false);
