@@ -11,7 +11,7 @@ export const saveData = async <T>(data: T) => {
 
 export const getData = async <T>() => {
   try {
-    return JSON.parse((await AsyncStorage.getItem(APPLICATION_PREFIX)) || "") as T;
+    return JSON.parse((await AsyncStorage.getItem(APPLICATION_PREFIX)) || "{}") as T;
   } catch (e) {
     console.log(e);
   }
