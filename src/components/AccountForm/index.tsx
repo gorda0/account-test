@@ -14,9 +14,16 @@ interface AccountFormProps {
   initialValues?: Partial<AccountModel>;
   previousAccounts: Array<AccountModel>;
   updateTempMethod: (method: () => void) => void;
-  onSubmit: (data: AccountModel) => void;
+  onSubmit: (data: AccountModel) => boolean;
+  onSubmitSuccess: () => void;
 }
-const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMethod }: AccountFormProps) => {
+const AccountForm = ({
+  onSubmit,
+  onSubmitSuccess,
+  initialValues,
+  previousAccounts,
+  updateTempMethod,
+}: AccountFormProps) => {
   const {
     codeLabel: initialCode,
     parentCode: initialParentCode,
@@ -35,8 +42,8 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
       AccountType.Income,
   );
 
-  const [openReleasePicker, setOpenReleasePicker] = useState(true);
-  const [isRelease, setIsRelease] = useState(!!initialIsRelease);
+  const [openReleasePicker, setOpenReleasePicker] = useState(false);
+  const [isRelease, setIsRelease] = useState(initialIsRelease !== undefined ? initialIsRelease : true);
 
   const initialFormState = {
     code: initialCode || "",
@@ -69,15 +76,18 @@ const AccountForm = ({ onSubmit, initialValues, previousAccounts, updateTempMeth
 
   useEffect(() => {
     updateTempMethod(() => {
-      onSubmit({
-        ...formState,
-        isRelease,
-        type: accountType,
-        parentCode,
-        code: formState.code.split(".").reverse()[0],
-        codeLabel,
-        fullLabel: `${codeLabel} - ${formState.name}`,
-      });
+      if (
+        onSubmit({
+          ...formState,
+          isRelease,
+          type: accountType,
+          parentCode,
+          code: formState.code.split(".").reverse()[0],
+          codeLabel,
+          fullLabel: `${codeLabel} - ${formState.name}`,
+        })
+      )
+        onSubmitSuccess();
     });
   }, [formState, accountType, parentCode, isRelease]);
 

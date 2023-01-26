@@ -25,7 +25,7 @@ const {
 } = testIds;
 
 const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
-  const { accounts, tempMethod, resetTempMethod, setFilterItems } = useContext(AccountContext);
+  const { accounts, tempMethod, resetTempMethod, setFilterItems, errors } = useContext(AccountContext);
   const navigation = useNavigation<AccountNavigationProps>();
 
   const getRouteName = () => navigation.getState()?.routes[navigation.getState()?.index].name;
@@ -74,7 +74,6 @@ const BaseAccoutTemplate = ({ children }: PropsWithChildren) => {
                 onPress={() => {
                   if (isAccountScreen) {
                     tempMethod.method?.();
-                    navigation?.goBack();
                     resetTempMethod();
                   } else {
                     navigation?.navigate("Account", {});

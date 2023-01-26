@@ -28,7 +28,7 @@ const MessageDialog = ({ message, isVisible, onConfirm }: DeleteModalProps) => {
       <ModalContainer>
         <Box>
           <CenteredContainer>
-            <Icon color={colors.orange} size={40} name="alert-triangle" />
+            <Icon color={colors.magenta} size={40} name="alert-triangle" />
           </CenteredContainer>
           <TextContainer>
             <MessageText testID={testIds.messageDialog.messageLabel}>{message}</MessageText>

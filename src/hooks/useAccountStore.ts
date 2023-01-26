@@ -15,11 +15,13 @@ const useAccountStore = (accounts: AccountStoreModel) => {
     });
 
   const addAccount = (account: AccountModel) => {
+    let hasErrors = false;
     setAccountState(draft => {
       const matchedAccounts = draft.accounts.find(previousAccount => previousAccount.codeLabel === account.codeLabel);
 
       if (matchedAccounts) {
         draft.errors.push({ message: "Conta já existente" });
+        hasErrors = true;
       } else {
         draft.accounts.push({
           ...account,
@@ -32,14 +34,19 @@ const useAccountStore = (accounts: AccountStoreModel) => {
         );
       }
     });
+
+    return !hasErrors;
   };
 
-  const editAccount = (account: AccountModel) =>
+  const editAccount = (account: AccountModel) => {
     setAccountState(draft => {
       draft.accounts = draft.accounts.map(draftAccount =>
         draftAccount.codeLabel === account.codeLabel ? account : draftAccount,
       );
     });
+
+    return true;
+  };
 
   const removeAccount = (account: AccountModel) => {
     setAccountState(draft => {
